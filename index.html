@@ -203,7 +203,45 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
   #overlay.open { display: block; }
   .page { padding: 60px 18px 48px; }
   .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-hero-title { font-size: 24px; }
+  .home-block { padding: 14px 16px; }
 }
+
+/* HOME LANDING */
+.home-hero { padding: 48px 0 32px; }
+.home-hero-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+.home-hero-title { font-family: var(--font-head); font-size: 34px; font-weight: 700; color: var(--bordeaux); line-height: 1.15; margin-bottom: 14px; }
+.home-hero-sub { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 22px; max-width: 460px; }
+.home-accent-bar { display: flex; gap: 5px; }
+.home-accent-bar span { height: 5px; border-radius: 3px; }
+.home-blocks { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+.home-block { display: flex; align-items: center; gap: 18px; background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; padding: 20px 22px; cursor: pointer; transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s; }
+.home-block:hover { border-color: var(--teal); transform: translateX(5px); box-shadow: 0 6px 24px rgba(43,191,191,0.1); }
+.home-block-ico { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; }
+.home-block-content { flex: 1; }
+.home-block-title { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.home-block-desc { font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-bottom: 4px; }
+.home-block-names { font-size: 11px; color: var(--teal); font-weight: 600; }
+.home-block-arrow { font-size: 18px; color: var(--border); flex-shrink: 0; transition: color 0.2s, transform 0.2s; }
+.home-block:hover .home-block-arrow { color: var(--teal); transform: translateX(4px); }
+
+/* REVEAL ANIMATIONS */
+@keyframes revealUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.reveal { opacity:0; animation: revealUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards; animation-delay: var(--delay,0s); }
+.page:not(.active) .reveal { animation:none; opacity:0; }
+.page.active .page-title { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+.page.active .page-sub { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+.page.active .team-grid { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
+.page.active .link-list { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
+.page.active .tbl-wrap { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
+.page.active .tpl { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.page.active .lib-link { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.page.active .book-grid { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.06s both; }
+.page.active .warn-banner { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.page.active .period-tabs { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.page.active .test-links-row { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+.page.active .cal-box { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.06s both; }
+@media (prefers-reduced-motion: reduce) { .reveal, .page.active * { animation: none !important; opacity: 1 !important; } }
 </style>
 <script>
 // All functions declared immediately so onclick= attributes work at parse time
@@ -287,9 +325,9 @@ function filterTpls(inp) {
 <div id="overlay" onclick="toggleSidebar()"></div>
 
 <nav id="sidebar">
-  <div class="sidebar-logo">
+  <div class="sidebar-logo" onclick="show('home')" style="cursor:pointer;">
     <h1>AB Road Studio</h1>
-    <span>Internal Hub</span>
+    <span>Internal Hub · на главную ↑</span>
   </div>
   <div class="sidebar-search">
     <input type="text" placeholder="Поиск...">
@@ -332,30 +370,58 @@ function filterTpls(inp) {
 
 <!-- HOME -->
 <div class="page active" id="p-home">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
-  <div class="page-title">Привет, команда 👋</div>
-  <div class="page-sub">Внутренний хаб AB Road Studio — всё в одном месте, без VPN</div>
-  <div class="card-grid">
-    <div class="nav-card" onclick="show('team')">
-      <div class="card-ico ico-b">👥</div>
-      <div class="card-name">Teammate</div>
-      <div class="card-desc">Настя, Аня, Катя, Наташа</div>
+
+  <div class="home-hero reveal">
+    <div class="home-hero-label">AB Road Studio · Internal Hub</div>
+    <h1 class="home-hero-title">Всё, что нужно<br>команде — здесь.</h1>
+    <p class="home-hero-sub">Шаблоны ответов, пособия, расписание, профили коллег.<br>Без VPN, без Notion, без поиска в чатах.</p>
+    <div class="home-accent-bar">
+      <span class="b1"></span><span class="b2"></span><span class="b3"></span>
     </div>
-    <div class="nav-card" onclick="show('links')">
-      <div class="card-ico ico-t">🗂</div>
-      <div class="card-name">Main</div>
-      <div class="card-desc">Ссылки, цены, календарь, тесты</div>
+  </div>
+
+  <div class="home-blocks">
+
+    <div class="home-block reveal" onclick="show('team')" style="--delay:0.05s">
+      <div class="home-block-ico ico-b">👥</div>
+      <div class="home-block-content">
+        <div class="home-block-title">Команда</div>
+        <div class="home-block-desc">Профили педагогов — роли, направления, контакты</div>
+        <div class="home-block-names">Настя · Аня · Катя · Наташа</div>
+      </div>
+      <div class="home-block-arrow">→</div>
     </div>
-    <div class="nav-card" onclick="show('mp')">
-      <div class="card-ico ico-l">💬</div>
-      <div class="card-name">FAQ / Messages</div>
-      <div class="card-desc">Шаблоны ответов родителям</div>
+
+    <div class="home-block reveal" onclick="show('links')" style="--delay:0.1s">
+      <div class="home-block-ico ico-t">🗂</div>
+      <div class="home-block-content">
+        <div class="home-block-title">Main</div>
+        <div class="home-block-desc">Ссылки, прайс, календарь и тестирования</div>
+        <div class="home-block-names">Links · Price · Calendar · Тестирования</div>
+      </div>
+      <div class="home-block-arrow">→</div>
     </div>
-    <div class="nav-card" onclick="show('lu')">
-      <div class="card-ico ico-w">📚</div>
-      <div class="card-name">Library</div>
-      <div class="card-desc">УМК, конференции, материалы</div>
+
+    <div class="home-block reveal" onclick="show('mp')" style="--delay:0.15s">
+      <div class="home-block-ico ico-l">💬</div>
+      <div class="home-block-content">
+        <div class="home-block-title">FAQ / Messages</div>
+        <div class="home-block-desc">Готовые шаблоны ответов родителям — копируй одним кликом</div>
+        <div class="home-block-names">Оплаты · Скидки · Мероприятия · Праздники · и ещё 5 тем</div>
+      </div>
+      <div class="home-block-arrow">→</div>
     </div>
+
+    <div class="home-block reveal" onclick="show('lu')" style="--delay:0.2s">
+      <div class="home-block-ico ico-w">📚</div>
+      <div class="home-block-content">
+        <div class="home-block-title">Library</div>
+        <div class="home-block-desc">УМК, вебинары Cambridge, архив ридеров и рекомендации</div>
+        <div class="home-block-names">УМК 25–26 · Cambridge · MEGA архив · Bucket list</div>
+      </div>
+      <div class="home-block-arrow">→</div>
+    </div>
+
   </div>
 </div>
 

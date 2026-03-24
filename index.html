@@ -8,270 +8,239 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bordeaux: #8B1F5A;
+  --bordeaux: #5C1A3A;
   --teal: #2BBFBF;
-  --lime: #8DC63F;
-  --bg: #F5F2EC;
+  --bg: #FDFCFA;
+  --bg2: #F5F3EF;
   --white: #FFFFFF;
   --text: #1A1219;
-  --text-muted: #7A6A75;
-  --border: rgba(139,31,90,0.12);
-  --sidebar-w: 240px;
+  --text-muted: #9A8A95;
+  --text-hint: #C4B4BF;
+  --border: rgba(26,18,25,0.08);
+  --border-hover: rgba(43,191,191,0.5);
+  --sidebar-w: 220px;
   --font-head: 'Unbounded', sans-serif;
   --font-body: 'Mulish', sans-serif;
 }
-body { font-family: var(--font-body); background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg2); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
 /* SIDEBAR */
-#sidebar {
-  width: var(--sidebar-w); background: var(--bordeaux);
-  display: flex; flex-direction: column; flex-shrink: 0;
-  overflow-y: auto; transition: transform 0.3s ease; z-index: 100;
-}
-.sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.15); }
-.sidebar-logo h1 { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0.05em; line-height: 1.4; }
-.sidebar-logo span { display: block; font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; }
-.sidebar-search { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.sidebar-search input { width: 100%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 7px 10px; color: #fff; font-family: var(--font-body); font-size: 12px; outline: none; }
-.sidebar-search input::placeholder { color: rgba(255,255,255,0.4); }
-.nav-section { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+#sidebar { width: var(--sidebar-w); background: var(--bordeaux); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.3s ease; z-index: 100; }
+.sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+.sidebar-logo h1 { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0.04em; line-height: 1.4; }
+.sidebar-logo span { display: block; font-size: 11px; color: rgba(255,255,255,0.38); margin-top: 3px; }
+.sidebar-search { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.sidebar-search input { width: 100%; background: rgba(255,255,255,0.08); border: 0.5px solid rgba(255,255,255,0.15); border-radius: 7px; padding: 7px 10px; color: #fff; font-family: var(--font-body); font-size: 12px; outline: none; }
+.sidebar-search input::placeholder { color: rgba(255,255,255,0.3); }
+.nav-section { padding: 20px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .nav-section:last-child { border-bottom: none; }
-.nav-label { padding: 8px 20px 3px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.38); font-family: var(--font-head); }
-.nav-item { display: flex; align-items: center; gap: 8px; padding: 6px 20px; color: rgba(255,255,255,0.72); cursor: pointer; font-size: 13px; font-weight: 500; border-left: 3px solid transparent; transition: background 0.12s, color 0.12s; }
-.nav-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
-.nav-item.active { background: rgba(255,255,255,0.16); color: #fff; border-left-color: var(--teal); }
-.nav-icon { font-size: 13px; flex-shrink: 0; }
+.nav-label { padding: 0 20px 6px; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: var(--font-head); }
+.nav-item { display: flex; align-items: center; padding: 7px 20px; color: rgba(255,255,255,0.55); cursor: pointer; font-size: 13px; font-weight: 400; border-left: 2px solid transparent; transition: background 0.12s, color 0.12s; }
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+.nav-item.active { color: #fff; border-left-color: var(--teal); background: rgba(255,255,255,0.09); }
+.nav-sub { padding-left: 32px !important; font-size: 12px !important; color: rgba(255,255,255,0.42) !important; }
+.nav-sub.active { color: rgba(255,255,255,0.85) !important; }
 
 /* BURGER */
 #burger { display: none; position: fixed; top: 14px; left: 14px; z-index: 200; background: var(--bordeaux); border: none; border-radius: 10px; width: 40px; height: 40px; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
 #burger span { display: block; width: 20px; height: 2px; background: #fff; border-radius: 2px; }
-#overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99; }
+#overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 99; }
 
 /* CONTENT */
-#content { flex: 1; overflow-y: auto; }
-.page { display: none; padding: 36px 40px 60px; max-width: 900px; }
+#content { flex: 1; overflow-y: auto; background: var(--bg); }
+.page { display: none; padding: 48px 56px 72px; max-width: 860px; }
 .page.active { display: block; }
 
-/* page header */
-.accent-bar { display: flex; gap: 5px; margin-bottom: 14px; }
-.accent-bar span { height: 5px; border-radius: 3px; }
-.b1 { background: var(--bordeaux); width: 36px; }
-.b2 { background: var(--teal); width: 20px; }
-.b3 { background: var(--lime); width: 12px; }
-.page-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; color: var(--bordeaux); line-height: 1.2; margin-bottom: 4px; }
-.page-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+/* PAGE HEADER */
+.page-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+.page-title { font-family: var(--font-head); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 5px; letter-spacing: -0.01em; }
+.page-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 36px; }
+.accent-bar { display: none; }
+.b1,.b2,.b3 {}
 
-/* CARD GRID */
-.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 12px; }
-.nav-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 20px 16px 16px; cursor: pointer; transition: border-color 0.18s, transform 0.15s, box-shadow 0.18s; }
-.nav-card:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(43,191,191,0.14); }
-.card-ico { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 10px; }
-.ico-b { background: rgba(139,31,90,0.09); }
-.ico-t { background: rgba(43,191,191,0.11); }
-.ico-l { background: rgba(141,198,63,0.14); }
-.ico-w { background: rgba(139,31,90,0.05); }
-.card-name { font-family: var(--font-head); font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.35; margin-bottom: 4px; }
-.card-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+/* SECTION LABEL */
+.sec-h { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 14px; margin-top: 32px; }
+.sec-h:first-of-type { margin-top: 0; }
 
-/* TEAM CARDS */
-.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 8px; }
-.team-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; padding: 24px 14px 18px; text-align: center; cursor: pointer; transition: border-color 0.18s, transform 0.15s; }
-.team-card:hover { border-color: var(--teal); transform: translateY(-2px); }
-.team-card.active { border-color: var(--bordeaux); background: rgba(139,31,90,0.03); }
-.team-photo { width: 86px; height: 86px; border-radius: 50%; background: rgba(139,31,90,0.08); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 24px; font-weight: 700; color: var(--bordeaux); overflow: hidden; outline: 2px solid var(--border); outline-offset: 2px; }
+/* HOME */
+.home-hero { padding: 56px 0 40px; }
+.home-hero-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+.home-hero-title { font-family: var(--font-head); font-size: 30px; font-weight: 700; color: var(--text); line-height: 1.15; margin-bottom: 28px; letter-spacing: -0.02em; }
+.home-accent-bar { display: flex; gap: 4px; }
+.home-accent-bar span { height: 3px; border-radius: 2px; }
+.home-blocks { display: flex; flex-direction: column; gap: 8px; margin-top: 36px; }
+.home-block { display: flex; align-items: center; gap: 16px; background: var(--white); border: 0.5px solid var(--border); border-radius: 12px; padding: 18px 20px; cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
+.home-block:hover { border-color: var(--border-hover); transform: translateX(4px); }
+.home-block-ico { width: 40px; height: 40px; border-radius: 10px; background: var(--bg2); flex-shrink: 0; }
+.home-block-content { flex: 1; }
+.home-block-title { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.home-block-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 3px; }
+.home-block-names { font-size: 11px; color: var(--teal); }
+.home-block-arrow { font-size: 14px; color: var(--text-hint); flex-shrink: 0; transition: color 0.15s, transform 0.15s; }
+.home-block:hover .home-block-arrow { color: var(--teal); transform: translateX(3px); }
+
+/* MAIN SECTION CARDS */
+.main-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; }
+.main-card { background: var(--white); border: 0.5px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
+.main-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.main-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.main-card-ico { width: 40px; height: 40px; border-radius: 10px; background: var(--bg2); }
+.main-card-arrow { font-size: 14px; color: var(--text-hint); transition: color 0.15s, transform 0.15s; }
+.main-card:hover .main-card-arrow { color: var(--teal); transform: translateX(3px); }
+.main-card-title { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.main-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* TEAM */
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
+.team-card { background: var(--white); border: 0.5px solid var(--border); border-radius: 12px; padding: 22px 14px 18px; text-align: center; cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
+.team-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.team-card.active { border-color: rgba(92,26,58,0.35); background: rgba(92,26,58,0.02); }
+.team-photo { width: 72px; height: 72px; border-radius: 50%; background: var(--bg2); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--bordeaux); overflow: hidden; border: 0.5px solid var(--border); }
 .team-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.team-name { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.team-name { font-family: var(--font-head); font-size: 10px; font-weight: 700; color: var(--text); margin-bottom: 3px; line-height: 1.4; }
 .team-role { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
 .team-tags { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
-.team-tag { font-size: 10px; background: rgba(43,191,191,0.1); color: #117777; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+.team-tag { font-size: 10px; background: rgba(43,191,191,0.08); color: #0F6E56; padding: 2px 6px; border-radius: 4px; }
 .ph { font-size: 11px; color: #ccc; font-style: italic; margin-top: 8px; }
 
 /* PROFILE PANEL */
-.profile-panel { display: none; background: var(--white); border: 1.5px solid var(--bordeaux); border-radius: 16px; padding: 28px 32px; margin-top: 16px; animation: fadeIn 0.2s ease; }
+.profile-panel { display: none; background: var(--white); border: 0.5px solid rgba(92,26,58,0.2); border-radius: 12px; padding: 28px 32px; margin-top: 12px; animation: fadeIn 0.2s ease; }
 .profile-panel.open { display: block; }
-@keyframes fadeIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
-.profile-close { float: right; background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; padding: 0 0 4px 8px; line-height: 1; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(-4px); } to { opacity:1; transform: translateY(0); } }
+.profile-close { float: right; background: none; border: none; font-size: 16px; color: var(--text-hint); cursor: pointer; padding: 0 0 4px 8px; line-height: 1; }
 .profile-close:hover { color: var(--bordeaux); }
 .profile-top { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 20px; }
-.profile-photo-lg { width: 80px; height: 80px; border-radius: 50%; background: rgba(139,31,90,0.08); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 26px; font-weight: 700; color: var(--bordeaux); overflow: hidden; outline: 2px solid var(--border); outline-offset: 2px; }
+.profile-photo-lg { width: 72px; height: 72px; border-radius: 50%; background: var(--bg2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 22px; font-weight: 700; color: var(--bordeaux); overflow: hidden; border: 0.5px solid var(--border); }
 .profile-photo-lg img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.profile-info h3 { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--bordeaux); margin-bottom: 3px; }
-.profile-info .prole { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
-.profile-quote { font-size: 13px; font-style: italic; color: var(--text-muted); border-left: 3px solid var(--teal); padding-left: 12px; margin-bottom: 20px; line-height: 1.6; }
+.profile-info h3 { font-family: var(--font-head); font-size: 13px; font-weight: 700; color: var(--bordeaux); margin-bottom: 3px; }
+.profile-info .prole { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+.profile-quote { font-size: 13px; font-style: italic; color: var(--text-muted); border-left: 2px solid var(--teal); padding-left: 12px; margin-bottom: 20px; line-height: 1.6; }
 .profile-section { margin-bottom: 16px; }
-.profile-section h4 { font-family: var(--font-head); font-size: 10px; font-weight: 700; color: var(--bordeaux); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.profile-section h4::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.profile-section h4 { font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.profile-section h4::after { content: ''; flex: 1; height: 0.5px; background: var(--border); }
 .profile-section ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-.profile-section ul li { font-size: 13px; color: var(--text); padding-left: 14px; position: relative; line-height: 1.5; }
-.profile-section ul li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
-
-@media (max-width: 800px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .team-grid { grid-template-columns: 1fr; } .profile-top { flex-direction: column; align-items: center; text-align: center; } .profile-panel { padding: 20px 16px; } }
+.profile-section ul li { font-size: 12px; color: var(--text-muted); padding-left: 12px; position: relative; line-height: 1.5; }
+.profile-section ul li::before { content: '–'; position: absolute; left: 0; color: var(--text-hint); }
+.profile-contact { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.profile-contact a { font-size: 12px; color: var(--teal); text-decoration: none; }
 
 /* LINKS */
-.link-list { display: flex; flex-direction: column; gap: 8px; }
-.link-row { display: flex; align-items: center; gap: 10px; background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 16px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 500; transition: border-color 0.15s; }
-.link-row:hover { border-color: var(--teal); }
-.link-badge { margin-left: auto; font-size: 10px; background: rgba(43,191,191,0.1); color: #117777; padding: 2px 8px; border-radius: 5px; font-weight: 600; flex-shrink: 0; }
+.link-list { display: flex; flex-direction: column; gap: 6px; }
+.link-row { display: flex; align-items: center; gap: 10px; background: var(--white); border: 0.5px solid var(--border); border-radius: 10px; padding: 13px 16px; text-decoration: none; color: var(--text); font-size: 13px; transition: border-color 0.15s; }
+.link-row:hover { border-color: var(--border-hover); }
+.link-badge { margin-left: auto; font-size: 10px; background: rgba(43,191,191,0.08); color: #0F6E56; padding: 2px 8px; border-radius: 4px; font-weight: 500; flex-shrink: 0; }
 
-/* TABLES */
-.tbl-wrap { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
-.styled-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.styled-table th { padding: 9px 14px; background: rgba(139,31,90,0.04); color: var(--text-muted); font-weight: 600; font-size: 11px; text-align: left; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1.5px solid var(--border); }
-.styled-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
-.styled-table tr:last-child td { border-bottom: none; }
-.badge { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 600; }
-.b-sp { background: rgba(139,31,90,0.1); color: var(--bordeaux); }
-.b-wr { background: rgba(43,191,191,0.12); color: #0e8080; }
-.b-rv { background: rgba(141,198,63,0.15); color: #3d6e0e; }
-
-.sec-h { font-family: var(--font-head); font-size: 12px; font-weight: 600; color: var(--bordeaux); margin: 22px 0 10px; display: flex; align-items: center; gap: 8px; }
-.sec-h::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-/* MESSAGES */
-.msg-search { margin-bottom: 16px; }
-.msg-search input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 14px; font-family: var(--font-body); font-size: 13px; background: var(--white); color: var(--text); outline: none; }
-.msg-search input:focus { border-color: var(--teal); }
-.tpl { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
-.tpl-head { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; background: rgba(139,31,90,0.04); border-bottom: 1px solid var(--border); }
-.tpl-name { font-size: 13px; font-weight: 600; color: var(--bordeaux); }
-.tpl-tag { font-size: 10px; background: rgba(43,191,191,0.1); color: #117777; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
-.tpl-text { padding: 12px 14px; font-size: 13px; line-height: 1.65; color: var(--text); white-space: pre-wrap; }
-.tpl-foot { padding: 0 14px 12px; }
-.copy-btn { display: inline-flex; align-items: center; gap: 5px; padding: 5px 13px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
-.copy-btn:hover { background: rgba(43,191,191,0.1); border-color: var(--teal); color: #0e8080; }
-.copy-btn.ok { background: rgba(141,198,63,0.14); border-color: var(--lime); color: #3d6e0e; }
-
-/* LIBRARY */
-.lib-link { display: flex; align-items: center; gap: 10px; padding: 11px 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; margin-bottom: 8px; text-decoration: none; color: var(--bordeaux); font-size: 13px; font-weight: 500; transition: border-color 0.15s, background 0.15s; }
-.lib-link:hover { border-color: var(--teal); background: rgba(43,191,191,0.04); }
-.lib-type { margin-left: auto; font-size: 10px; background: rgba(141,198,63,0.14); color: #3d6e0e; padding: 2px 7px; border-radius: 4px; font-weight: 600; flex-shrink: 0; }
-
-/* CALENDAR */
-.cal-box { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 32px; text-align: center; color: var(--text-muted); font-size: 13px; line-height: 1.6; }
-.cal-box .ci { font-size: 36px; margin-bottom: 12px; }
-.cal-box code { font-size: 11px; background: var(--bg); padding: 2px 6px; border-radius: 4px; color: var(--bordeaux); }
-
-/* TESTING PAGE */
-.period-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-.period-tab { padding: 7px 18px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--white); font-family: var(--font-head); font-size: 11px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+/* TESTING */
+.test-links-row { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+.test-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; background: var(--white); border: 0.5px solid var(--border); border-radius: 9px; font-size: 12px; color: var(--text); text-decoration: none; transition: border-color 0.15s; }
+.test-link-btn:hover { border-color: var(--border-hover); }
+.period-tabs { display: flex; gap: 6px; margin-bottom: 24px; }
+.period-tab { padding: 6px 16px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--white); font-family: var(--font-head); font-size: 10px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
 .period-tab.active { background: var(--bordeaux); border-color: var(--bordeaux); color: #fff; }
-.period-tab:hover:not(.active) { border-color: var(--bordeaux); color: var(--bordeaux); }
 
-.warn-banner { display: flex; align-items: flex-start; gap: 10px; background: rgba(141,198,63,0.12); border: 1.5px solid rgba(141,198,63,0.4); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #3a5f0b; line-height: 1.5; }
-.warn-banner .wi { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.warn-banner strong { font-weight: 700; }
+/* NOTICE BANNER */
+.warn-banner { background: rgba(43,191,191,0.06); border: 0.5px solid rgba(43,191,191,0.25); border-radius: 10px; padding: 13px 16px; margin-bottom: 20px; font-size: 12px; color: #0F6E56; line-height: 1.55; }
+.warn-banner .wi { display: none; }
+.warn-banner-red { background: rgba(92,26,58,0.04); border-color: rgba(92,26,58,0.15); color: var(--bordeaux); }
 
-.warn-banner-red { background: rgba(139,31,90,0.06); border-color: rgba(139,31,90,0.25); color: var(--bordeaux); }
+/* BOOK CARDS */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px; margin-top: 4px; }
+.book-card { background: var(--white); border: 0.5px solid var(--border); border-radius: 11px; overflow: hidden; }
+.book-level { height: 4px; font-size: 0; line-height: 0; }
+.lv-starters { background: #D4850A; }
+.lv-movers { background: #6B35A8; }
+.lv-flyers { background: #2A7A2A; }
+.lv-key { background: #1A6A9A; }
+.lv-preliminary { background: #8B1F5A; }
+.book-body { padding: 14px 14px 16px; }
+.book-level-label { font-size: 10px; font-weight: 500; letter-spacing: 0.05em; color: var(--text-hint); text-transform: uppercase; margin-bottom: 5px; }
+.book-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.book-subtitle { font-size: 11px; color: var(--text-hint); margin-bottom: 12px; line-height: 1.35; }
+.book-links { display: flex; flex-direction: column; gap: 5px; }
+.book-link { display: flex; align-items: center; font-size: 12px; color: var(--bordeaux); text-decoration: none; transition: color 0.12s; }
+.book-link:hover { color: var(--teal); }
+.book-link-muted { color: var(--text-hint); }
 
-.test-links-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-.test-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; color: var(--bordeaux); text-decoration: none; transition: border-color 0.15s, background 0.15s; }
-.test-link-btn:hover { border-color: var(--teal); background: rgba(43,191,191,0.05); }
+/* COLLAPSIBLE */
+.collapsible-wrap { background: var(--white); border: 0.5px solid var(--border); border-radius: 11px; overflow: hidden; margin-bottom: 12px; }
+.collapsible-head { padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.collapsible-head:hover { background: var(--bg2); }
+.collapsible-title { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--text); }
+.collapsible-arrow { font-size: 11px; color: var(--text-hint); }
+.collapsible-body { padding: 0 16px 16px; }
 
-.schedule-img-wrap { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; cursor: zoom-in; position: relative; }
+/* LEVEL TILES */
+.level-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+.level-tile { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 10px; padding: 14px 10px 12px; cursor: pointer; text-align: center; transition: border-color 0.15s, background 0.15s; }
+.level-tile:hover { border-color: var(--border-hover); background: var(--white); }
+.level-tile-dot { width: 8px; height: 8px; border-radius: 50%; margin: 0 auto 8px; }
+.level-tile-badge { display: none; }
+.level-tile-name { font-family: var(--font-head); font-size: 10px; font-weight: 700; color: var(--text); line-height: 1.35; }
+
+/* SCHEDULE IMAGE */
+.schedule-img-wrap { background: var(--white); border: 0.5px solid var(--border); border-radius: 11px; overflow: hidden; margin-bottom: 20px; cursor: zoom-in; }
 .schedule-img-wrap img { width: 100%; display: block; }
-.schedule-placeholder { background: var(--bg); border: 2px dashed var(--border); border-radius: 12px; padding: 32px; text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 20px; cursor: default; }
-.schedule-placeholder .spi { font-size: 28px; margin-bottom: 8px; }
+.schedule-placeholder { background: var(--bg2); border: 0.5px dashed var(--border); border-radius: 11px; padding: 32px; text-align: center; color: var(--text-hint); font-size: 12px; margin-bottom: 20px; }
+.schedule-placeholder .spi { font-size: 24px; margin-bottom: 8px; }
 
-/* lightbox */
-#lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 300; align-items: center; justify-content: center; cursor: zoom-out; }
+/* LIGHTBOX */
+#lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 300; align-items: center; justify-content: center; cursor: zoom-out; }
 #lightbox.open { display: flex; }
 #lightbox img { max-width: 92vw; max-height: 90vh; border-radius: 8px; }
 
-/* BOOK CARDS */
-.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-top: 4px; }
-.book-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
-.book-level { font-family: var(--font-head); font-size: 10px; font-weight: 700; padding: 5px 12px; color: #fff; letter-spacing: 0.06em; }
-.lv-starters { background: #E8821A; }
-.lv-movers { background: #7B3FA0; }
-.lv-flyers { background: #3A8C3A; }
-.lv-key { background: #1A7BA0; }
-.lv-preliminary { background: #A01A4A; }
-.book-body { padding: 10px 12px 12px; }
-.book-title { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-.book-subtitle { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.35; }
-.book-links { display: flex; flex-direction: column; gap: 5px; }
-.book-link { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--bordeaux); text-decoration: none; font-weight: 500; transition: color 0.12s; }
-.book-link:hover { color: var(--teal); }
-.book-link-muted { color: var(--text-muted); font-weight: 400; }
+/* PASSWORD */
+#lockscreen { position: fixed; inset: 0; background: var(--bg2); z-index: 999; display: flex; align-items: center; justify-content: center; }
+#lockscreen.hidden { display: none; }
+.lock-box { background: var(--white); border: 0.5px solid var(--border); border-radius: 16px; padding: 40px 36px; width: 300px; text-align: center; }
+.lock-logo { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--bordeaux); letter-spacing: 0.05em; margin-bottom: 5px; }
+.lock-sub { font-size: 12px; color: var(--text-hint); margin-bottom: 24px; }
+.lock-accent { display: flex; gap: 4px; justify-content: center; margin-bottom: 24px; }
+.lock-accent span { height: 3px; border-radius: 2px; }
+.lock-input { width: 100%; border: 0.5px solid var(--border); border-radius: 9px; padding: 11px 14px; font-family: var(--font-body); font-size: 14px; color: var(--text); background: var(--bg2); outline: none; text-align: center; letter-spacing: 0.06em; margin-bottom: 10px; transition: border-color 0.15s; }
+.lock-input:focus { border-color: var(--teal); background: var(--white); }
+.lock-btn { width: 100%; padding: 11px; background: var(--bordeaux); border: none; border-radius: 9px; font-family: var(--font-head); font-size: 10px; font-weight: 700; color: #fff; cursor: pointer; letter-spacing: 0.06em; transition: opacity 0.15s; }
+.lock-btn:hover { opacity: 0.85; }
+.lock-error { font-size: 12px; color: var(--bordeaux); margin-top: 10px; min-height: 18px; }
 
-@media (max-width: 600px) { .book-grid { grid-template-columns: repeat(2, 1fr); } }
+/* LIBRARY */
+.lib-link { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--white); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 6px; text-decoration: none; color: var(--text); font-size: 13px; transition: border-color 0.15s; }
+.lib-link:hover { border-color: var(--border-hover); }
+.lib-type { margin-left: auto; font-size: 10px; background: var(--bg2); color: var(--text-hint); padding: 2px 7px; border-radius: 4px; }
+
+/* CALENDAR */
+.cal-box { background: var(--white); border: 0.5px solid var(--border); border-radius: 11px; padding: 32px; text-align: center; color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+.cal-box .ci { font-size: 32px; margin-bottom: 12px; }
+.cal-box code { font-size: 11px; background: var(--bg2); padding: 2px 6px; border-radius: 4px; color: var(--bordeaux); }
+
+/* TEMPLATES */
+.tpl { background: var(--white); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+.tpl-head { padding: 11px 14px; background: var(--bg2); border-bottom: 0.5px solid var(--border); font-size: 12px; font-weight: 500; color: var(--text); }
+.tpl-text { padding: 12px 14px; font-size: 12px; color: var(--text-muted); line-height: 1.6; white-space: pre-wrap; }
+.tpl-foot { padding: 0 14px 12px; }
+.copy-btn { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 7px; font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+.copy-btn:hover { border-color: var(--teal); color: var(--teal); }
+.copy-btn.ok { background: rgba(43,191,191,0.08); border-color: var(--teal); color: #0F6E56; }
+
 @media (max-width: 700px) {
   #burger { display: flex; }
   #sidebar { position: fixed; top: 0; left: 0; bottom: 0; transform: translateX(-100%); }
   #sidebar.open { transform: translateX(0); }
   #overlay.open { display: block; }
-  .page { padding: 60px 18px 48px; }
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-  .home-hero-title { font-size: 24px; }
-  .home-block { padding: 14px 16px; }
+  .page { padding: 60px 20px 48px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-hero-title { font-size: 22px; }
+  .book-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* PASSWORD SCREEN */
-#lockscreen { position: fixed; inset: 0; background: var(--bg); z-index: 999; display: flex; align-items: center; justify-content: center; }
-#lockscreen.hidden { display: none; }
-.lock-box { background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 40px 36px; width: 320px; text-align: center; }
-.lock-logo { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--bordeaux); letter-spacing: 0.06em; margin-bottom: 6px; }
-.lock-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 28px; }
-.lock-accent { display: flex; gap: 5px; justify-content: center; margin-bottom: 28px; }
-.lock-accent span { height: 4px; border-radius: 3px; }
-.lock-input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 14px; font-family: var(--font-body); font-size: 14px; color: var(--text); background: var(--bg); outline: none; text-align: center; letter-spacing: 0.08em; margin-bottom: 12px; }
-.lock-input:focus { border-color: var(--teal); background: var(--white); }
-.lock-btn { width: 100%; padding: 11px; background: var(--bordeaux); border: none; border-radius: 10px; font-family: var(--font-head); font-size: 11px; font-weight: 700; color: #fff; cursor: pointer; letter-spacing: 0.06em; transition: opacity 0.15s; }
-.lock-btn:hover { opacity: 0.88; }
-.lock-error { font-size: 12px; color: var(--bordeaux); margin-top: 10px; min-height: 18px; }
-.home-hero { padding: 48px 0 32px; }
-.home-hero-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
-.home-hero-title { font-family: var(--font-head); font-size: 34px; font-weight: 700; color: var(--bordeaux); line-height: 1.15; margin-bottom: 14px; }
-.home-hero-sub { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 22px; max-width: 460px; }
-.home-accent-bar { display: flex; gap: 5px; }
-.home-accent-bar span { height: 5px; border-radius: 3px; }
-.home-blocks { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
-.home-block { display: flex; align-items: center; gap: 18px; background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; padding: 20px 22px; cursor: pointer; transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s; }
-.home-block:hover { border-color: var(--teal); transform: translateX(5px); box-shadow: 0 6px 24px rgba(43,191,191,0.1); }
-.home-block-ico { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; }
-.home-block-content { flex: 1; }
-.home-block-title { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-.home-block-desc { font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-bottom: 4px; }
-.home-block-names { font-size: 11px; color: var(--teal); font-weight: 600; }
-.home-block-arrow { font-size: 18px; color: var(--border); flex-shrink: 0; transition: color 0.2s, transform 0.2s; }
-.home-block:hover .home-block-arrow { color: var(--teal); transform: translateX(4px); }
-
-.nav-sub { padding-left: 32px !important; font-size: 12px !important; opacity: 0.85; }
-
-/* LEVEL TILES */
-.level-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
-.level-tile { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 16px 12px 14px; cursor: pointer; text-align: center; transition: border-color 0.18s, transform 0.15s, box-shadow 0.18s; }
-.level-tile:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(43,191,191,0.12); }
-.level-tile-badge { display: inline-block; font-family: var(--font-head); font-size: 10px; font-weight: 700; color: #fff; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; letter-spacing: 0.04em; }
-.level-tile-name { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.main-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 8px; }
-.main-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; padding: 22px 20px 20px; cursor: pointer; transition: border-color 0.18s, transform 0.15s, box-shadow 0.18s; }
-.main-card:hover { border-color: var(--teal); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(43,191,191,0.13); }
-.main-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.main-card-ico { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 21px; }
-.main-card-arrow { font-size: 18px; color: var(--border); transition: color 0.18s, transform 0.18s; }
-.main-card:hover .main-card-arrow { color: var(--teal); transform: translateX(4px); }
-.main-card-title { font-family: var(--font-head); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.main-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
-
 /* REVEAL ANIMATIONS */
-@keyframes revealUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-.reveal { opacity:0; animation: revealUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards; animation-delay: var(--delay,0s); }
+@keyframes revealUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.reveal { opacity:0; animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) forwards; animation-delay: var(--delay,0s); }
 .page:not(.active) .reveal { animation:none; opacity:0; }
-.page.active .page-title { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) both; }
-.page.active .page-sub { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
-.page.active .team-grid { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
-.page.active .link-list { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
-.page.active .tbl-wrap { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
-.page.active .tpl { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
-.page.active .lib-link { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
-.page.active .book-grid { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.06s both; }
-.page.active .warn-banner { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
-.page.active .period-tabs { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
-.page.active .test-links-row { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
-.page.active .cal-box { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.06s both; }
-@media (prefers-reduced-motion: reduce) { .reveal, .page.active * { animation: none !important; opacity: 1 !important; } }
+.page.active .page-title,.page.active .page-eyebrow { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.page.active .page-sub { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.04s both; }
+.page.active .team-grid,.page.active .link-list,.page.active .book-grid,.page.active .main-cards { animation: revealUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.07s both; }
+.page.active .tpl { animation: revealUp 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+@media (prefers-reduced-motion: reduce) { .reveal,.page.active * { animation: none !important; opacity: 1 !important; } }
 </style>
 <script>
 // All functions declared immediately so onclick= attributes work at parse time
@@ -397,9 +366,7 @@ function filterTpls(inp) {
     <h1>AB Road Studio</h1>
     <span>Internal Hub · на главную ↑</span>
   </div>
-  <div class="sidebar-search">
-    <input type="text" placeholder="Поиск...">
-  </div>
+
   <div class="nav-section">
     <div class="nav-label">Teammate</div>
     <div class="nav-item" onclick="show('team')">Команда</div>
@@ -453,7 +420,7 @@ function filterTpls(inp) {
 
 <!-- MAIN PAGE -->
 <div class="page" id="p-main">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+  <div class="page-eyebrow">Main</div>
   <div class="page-title">Main</div>
   <div class="page-sub">Выбери раздел</div>
   <div class="main-cards">
@@ -481,7 +448,6 @@ function filterTpls(inp) {
 
 <!-- TEAMMATE PAGE -->
 <div class="page" id="p-team">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">Команда</div>
   <div class="page-sub">Нажми на карточку — увидишь полный профиль</div>
   <div class="team-grid">
@@ -727,7 +693,7 @@ function filterTpls(inp) {
 
 <!-- LINKS -->
 <div class="page" id="p-links">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+  <div class="page-eyebrow">Main · Links</div>
   <div class="page-title">Links</div><div class="page-sub">Полезные ссылки студии</div>
   <div class="link-list">
     <a href="https://clck.ru/3Nxu9g" target="_blank" class="link-row">Группы / Расписание 25–26<span class="link-badge">расписание</span></a>
@@ -739,7 +705,6 @@ function filterTpls(inp) {
 
 <!-- PRICE -->
 <div class="page" id="p-price">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">Price</div><div class="page-sub">Актуальный прайс-лист</div>
   <div class="tbl-wrap">
     <table class="styled-table">
@@ -757,7 +722,6 @@ function filterTpls(inp) {
 
 <!-- CALENDAR -->
 <div class="page" id="p-calendar">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">Calendar</div><div class="page-sub">Расписание и важные даты</div>
   <div class="cal-box">
     <div class="ci">📅</div>
@@ -768,12 +732,12 @@ function filterTpls(inp) {
 
 <!-- TESTING -->
 <div class="page" id="p-testing">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
-  <div class="page-title">Тестирования</div>
+  <div class="page-eyebrow">Main · Тестирования</div>
+  <div class="page-title">Весна 2026</div>
   <div class="page-sub">Пособия, расписание и описание по группам</div>
 
   <div class="period-tabs">
-    <div class="period-tab active">🌸 Весна 2026</div>
+    <div class="period-tab active">Весна 2026</div>
     <div class="period-tab" style="border-style:dashed;color:var(--text-muted);">+ добавить период</div>
   </div>
 
@@ -793,12 +757,12 @@ function filterTpls(inp) {
   <div class="sec-h">Пособия</div>
 
   <!-- Тесты под печать -->
-  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;">
-    <div style="padding:12px 16px;background:rgba(139,31,90,0.04);border-bottom:1.5px solid var(--border);display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="toggleSection('tests-print')">
-      <span style="font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--bordeaux);">Тесты под печать на тестирование</span>
-      <span id="tests-print-arrow" style="margin-left:auto;color:var(--text-muted);font-size:12px;">▼</span>
+  <div class="collapsible-wrap">
+    <div class="collapsible-head" onclick="toggleSection('tests-print')">
+      <span class="collapsible-title">Тесты под печать на тестирование</span>
+      <span id="tests-print-arrow" class="collapsible-arrow">▶</span>
     </div>
-    <div id="tests-print" style="padding:16px;">
+    <div id="tests-print" style="display:none;padding:16px;">
       <div class="warn-banner" style="margin-bottom:16px;">
         
         <div>Для проведения тестирования <strong>Весной '26</strong> используем эти пособия (FYI):<br><strong>Внимание!</strong> Это только для тестирования! На уроки эти пособия не берём!</div>
@@ -807,71 +771,76 @@ function filterTpls(inp) {
       <div class="book-grid">
 
         <div class="book-card">
-          <div class="book-level lv-starters">Pre A1 · Starters</div>
+          <div class="book-level lv-starters"></div>
           <div class="book-body">
+            <div class="book-level-label">Pre A1</div>
             <div class="book-title">Starters</div>
             <div class="book-subtitle">Authentic Practice Tests 4</div>
             <div class="book-links">
               <a href="https://drive.google.com/file/d/1nSm20_XZxR7wqsA16Rb3k4bKk6Y2PjwP/view?usp=sharing" target="_blank" class="book-link">Тест под печать</a>
               <a href="https://drive.google.com/drive/folders/1-mej5XuOFz343ROblvV7nQii4UCcys2u?usp=sharing" target="_blank" class="book-link">Аудио</a>
-              <a href="https://drive.google.com/file/d/1ySWTRw3UeS8Vxmnc9Qx2yTt69twV2QTv/view?usp=sharing" target="_blank" class="book-link book-link-muted">Ответы</a>
-              <a href="https://drive.google.com/drive/folders/1mrVfXXEZd3DGCweReqhHdYDKU7eUqdJI?usp=sharing" target="_blank" class="book-link book-link-muted">Вся папка</a>
+              <a href="https://drive.google.com/file/d/1ySWTRw3UeS8Vxmnc9Qx2yTt69twV2QTv/view?usp=sharing" target="_blank" class="book-link">Ответы</a>
+              <a href="https://drive.google.com/drive/folders/1mrVfXXEZd3DGCweReqhHdYDKU7eUqdJI?usp=sharing" target="_blank" class="book-link">Вся папка</a>
             </div>
           </div>
         </div>
 
         <div class="book-card">
-          <div class="book-level lv-movers">A1 · Movers</div>
+          <div class="book-level lv-movers"></div>
           <div class="book-body">
+            <div class="book-level-label">A1</div>
             <div class="book-title">Movers</div>
             <div class="book-subtitle">Authentic Practice Tests 4</div>
             <div class="book-links">
               <a href="https://drive.google.com/file/d/1yU1RwDQCbb11f-i4MNEmXKJErpE52g2V/view?usp=sharing" target="_blank" class="book-link">Тест под печать</a>
               <a href="https://drive.google.com/drive/folders/1gG12SIQClBj1yIbVtS-CwugNrOCiK84U?usp=sharing" target="_blank" class="book-link">Аудио</a>
-              <a href="https://drive.google.com/file/d/13RXCjrgAYjXHvNbB-hV0_tj2oyx0Lkei/view?usp=drive_link" target="_blank" class="book-link book-link-muted">Ответы</a>
-              <a href="https://drive.google.com/drive/folders/1324OM7z-HdjLjs7dtGsupzMUeTE8HMlx?usp=sharing" target="_blank" class="book-link book-link-muted">Вся папка</a>
+              <a href="https://drive.google.com/file/d/13RXCjrgAYjXHvNbB-hV0_tj2oyx0Lkei/view?usp=drive_link" target="_blank" class="book-link">Ответы</a>
+              <a href="https://drive.google.com/drive/folders/1324OM7z-HdjLjs7dtGsupzMUeTE8HMlx?usp=sharing" target="_blank" class="book-link">Вся папка</a>
             </div>
           </div>
         </div>
 
         <div class="book-card">
-          <div class="book-level lv-flyers">A2 · Flyers</div>
+          <div class="book-level lv-flyers"></div>
           <div class="book-body">
+            <div class="book-level-label">A2</div>
             <div class="book-title">Flyers</div>
             <div class="book-subtitle">Authentic Practice Tests 4</div>
             <div class="book-links">
               <a href="https://drive.google.com/file/d/1KywpDXfgnCBJTzkoHYs7PLIbgxsH5E87/view?usp=sharing" target="_blank" class="book-link">Тест под печать</a>
               <a href="https://drive.google.com/drive/folders/1vnCdwhXtmnwSXyLqXgx1ck5dmTanHwi1?usp=sharing" target="_blank" class="book-link">Аудио</a>
-              <a href="https://drive.google.com/file/d/1Vl7iiQ1Lso2wVVqTkbQtbMAnacWe8hZP/view?usp=sharing" target="_blank" class="book-link book-link-muted">Ответы</a>
-              <a href="https://drive.google.com/drive/folders/1BALmqjlST0sXPt5Lb7ks9HYNSzstHFiW?usp=sharing" target="_blank" class="book-link book-link-muted">Вся папка</a>
+              <a href="https://drive.google.com/file/d/1Vl7iiQ1Lso2wVVqTkbQtbMAnacWe8hZP/view?usp=sharing" target="_blank" class="book-link">Ответы</a>
+              <a href="https://drive.google.com/drive/folders/1BALmqjlST0sXPt5Lb7ks9HYNSzstHFiW?usp=sharing" target="_blank" class="book-link">Вся папка</a>
             </div>
           </div>
         </div>
 
         <div class="book-card">
-          <div class="book-level lv-key">A2 · Key for Schools</div>
+          <div class="book-level lv-key"></div>
           <div class="book-body">
+            <div class="book-level-label">A2</div>
             <div class="book-title">Key for Schools</div>
             <div class="book-subtitle">Trainer#2 Test 4</div>
             <div class="book-links">
               <a href="https://drive.google.com/file/d/1WQksW9YsR9S9dTEruaur3J8rUrHyrlXE/view?usp=sharing" target="_blank" class="book-link">Тест под печать</a>
               <a href="https://drive.google.com/drive/folders/1ZIYR2b3f1WXrYaL-5KXEUX5Ct9CEaXt6?usp=sharing" target="_blank" class="book-link">Аудио</a>
-              <a href="https://drive.google.com/file/d/1_cEn65IFHHLrKe4cFKeH39BJS3K_H_XB/view?usp=sharing" target="_blank" class="book-link book-link-muted">Ответы</a>
-              <a href="https://drive.google.com/drive/folders/1YslsByIEk6nNtW_rVDmNha5LFibjeXRO?usp=sharing" target="_blank" class="book-link book-link-muted">Вся папка</a>
+              <a href="https://drive.google.com/file/d/1_cEn65IFHHLrKe4cFKeH39BJS3K_H_XB/view?usp=sharing" target="_blank" class="book-link">Ответы</a>
+              <a href="https://drive.google.com/drive/folders/1YslsByIEk6nNtW_rVDmNha5LFibjeXRO?usp=sharing" target="_blank" class="book-link">Вся папка</a>
             </div>
           </div>
         </div>
 
         <div class="book-card">
-          <div class="book-level lv-preliminary">B1 · Preliminary</div>
+          <div class="book-level lv-preliminary"></div>
           <div class="book-body">
+            <div class="book-level-label">B1</div>
             <div class="book-title">Preliminary for Schools</div>
             <div class="book-subtitle">Trainer#2 Test 4</div>
             <div class="book-links">
               <a href="https://drive.google.com/file/d/1sumyFQz0pQKN3TYnOAmElk-ddhDj5TZq/view?usp=sharing" target="_blank" class="book-link">Тест под печать</a>
               <a href="https://drive.google.com/drive/folders/1wZk9OKCj7JfSavtYLNnpyB13ppEbEgad?usp=sharing" target="_blank" class="book-link">Аудио</a>
-              <a href="https://drive.google.com/file/d/1acaYl6Mb1yjwk2-eJnmNU4nQxO2N5Q2T/view?usp=sharing" target="_blank" class="book-link book-link-muted">Ответы</a>
-              <a href="https://drive.google.com/drive/folders/1SzsfqI4J_100og2BqsNG4tDRf6F9kpzA?usp=sharing" target="_blank" class="book-link book-link-muted">Вся папка</a>
+              <a href="https://drive.google.com/file/d/1acaYl6Mb1yjwk2-eJnmNU4nQxO2N5Q2T/view?usp=sharing" target="_blank" class="book-link">Ответы</a>
+              <a href="https://drive.google.com/drive/folders/1SzsfqI4J_100og2BqsNG4tDRf6F9kpzA?usp=sharing" target="_blank" class="book-link">Вся папка</a>
             </div>
           </div>
         </div>
@@ -881,36 +850,44 @@ function filterTpls(inp) {
   </div>
 
   <!-- Пособия для уроков + Handbooks -->
-  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;">
-    <div style="padding:12px 16px;background:rgba(139,31,90,0.04);border-bottom:1.5px solid var(--border);display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="toggleSection('lessons-books')">
-      <span style="font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--bordeaux);">Пособия для уроков + Handbooks</span>
-      <span id="lessons-books-arrow" style="margin-left:auto;color:var(--text-muted);font-size:12px;">▶</span>
+  <div class="collapsible-wrap">
+    <div class="collapsible-head" onclick="toggleSection('lessons-books')">
+      <span class="collapsible-title">Пособия для уроков + Handbooks</span>
+      <span id="lessons-books-arrow" class="collapsible-arrow">▶</span>
     </div>
     <div id="lessons-books" style="display:none;padding:16px;">
       <div class="level-tiles">
         <div class="level-tile" onclick="show('lb-starters')">
-          <div class="level-tile-badge lv-starters">Pre A1</div>
+          <div class="level-tile-dot" style="background:#D4850A"></div>
           <div class="level-tile-name">Starters</div>
+          <div style="font-size:9px;color:var(--text-hint);margin-top:2px">Pre A1</div>
         </div>
         <div class="level-tile" onclick="show('lb-movers')">
-          <div class="level-tile-badge lv-movers">A1</div>
+          <div class="level-tile-dot" style="background:#6B35A8"></div>
           <div class="level-tile-name">Movers</div>
+          <div style="font-size:9px;color:var(--text-hint);margin-top:2px">A1</div>
         </div>
         <div class="level-tile" onclick="show('lb-flyers')">
-          <div class="level-tile-badge lv-flyers">A2</div>
+          <div class="level-tile-dot" style="background:#2A7A2A"></div>
           <div class="level-tile-name">Flyers</div>
+          <div style="font-size:9px;color:var(--text-hint);margin-top:2px">A2</div>
         </div>
         <div class="level-tile" onclick="show('lb-key')">
-          <div class="level-tile-badge lv-key">A2</div>
+          <div class="level-tile-dot" style="background:#1A6A9A"></div>
           <div class="level-tile-name">Key for Schools</div>
+          <div style="font-size:9px;color:var(--text-hint);margin-top:2px">A2</div>
         </div>
         <div class="level-tile" onclick="show('lb-pet')">
-          <div class="level-tile-badge lv-preliminary">B1</div>
+          <div class="level-tile-dot" style="background:#8B1F5A"></div>
           <div class="level-tile-name">PET for Schools</div>
+          <div style="font-size:9px;color:var(--text-hint);margin-top:2px">B1</div>
         </div>
         <div class="level-tile" onclick="show('lb-handbooks')">
-          <div class="level-tile-badge" style="background:#555;">—</div>
+          <div class="level-tile-dot" style="background:#888"></div>
           <div class="level-tile-name">Handbooks</div>
+          <div style="font-size:9px;color:var(--text-hint);margin-top:2px">—</div>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -922,57 +899,56 @@ function filterTpls(inp) {
 
 <!-- LEVEL SUBPAGES: Пособия для уроков -->
 <div class="page" id="p-lb-starters">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <button onclick="show('testing')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);padding:0;margin-bottom:16px;">← Назад</button>
   <div class="page-title">Starters — пособия</div>
   <div class="page-sub">Pre A1 · пособия для уроков</div>
   <div class="book-grid" style="margin-top:16px;">
-    <div class="book-card"><div class="book-level lv-starters">Pre A1 · Starters</div><div class="book-body"><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
+    <div class="book-card"><div class="book-level lv-starters"></div><div class="book-body">
+            <div class="book-level-label">Pre A1</div><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
   </div>
 </div>
 
 <div class="page" id="p-lb-movers">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <button onclick="show('testing')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);padding:0;margin-bottom:16px;">← Назад</button>
   <div class="page-title">Movers — пособия</div>
   <div class="page-sub">A1 · пособия для уроков</div>
   <div class="book-grid" style="margin-top:16px;">
-    <div class="book-card"><div class="book-level lv-movers">A1 · Movers</div><div class="book-body"><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
+    <div class="book-card"><div class="book-level lv-movers"></div><div class="book-body">
+            <div class="book-level-label">A1</div><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
   </div>
 </div>
 
 <div class="page" id="p-lb-flyers">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <button onclick="show('testing')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);padding:0;margin-bottom:16px;">← Назад</button>
   <div class="page-title">Flyers — пособия</div>
   <div class="page-sub">A2 · пособия для уроков</div>
   <div class="book-grid" style="margin-top:16px;">
-    <div class="book-card"><div class="book-level lv-flyers">A2 · Flyers</div><div class="book-body"><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
+    <div class="book-card"><div class="book-level lv-flyers"></div><div class="book-body">
+            <div class="book-level-label">A2</div><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
   </div>
 </div>
 
 <div class="page" id="p-lb-key">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <button onclick="show('testing')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);padding:0;margin-bottom:16px;">← Назад</button>
   <div class="page-title">Key for Schools — пособия</div>
   <div class="page-sub">A2 · пособия для уроков</div>
   <div class="book-grid" style="margin-top:16px;">
-    <div class="book-card"><div class="book-level lv-key">A2 · Key</div><div class="book-body"><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
+    <div class="book-card"><div class="book-level lv-key"></div><div class="book-body">
+            <div class="book-level-label">A2</div><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
   </div>
 </div>
 
 <div class="page" id="p-lb-pet">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <button onclick="show('testing')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);padding:0;margin-bottom:16px;">← Назад</button>
   <div class="page-title">PET for Schools — пособия</div>
   <div class="page-sub">B1 · пособия для уроков</div>
   <div class="book-grid" style="margin-top:16px;">
-    <div class="book-card"><div class="book-level lv-preliminary">B1 · PET</div><div class="book-body"><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
+    <div class="book-card"><div class="book-level lv-preliminary"></div><div class="book-body">
+            <div class="book-level-label">B1</div><div class="book-title">— добавить —</div><div class="book-links"></div></div></div>
   </div>
 </div>
 
 <div class="page" id="p-lb-handbooks">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <button onclick="show('testing')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);padding:0;margin-bottom:16px;">← Назад</button>
   <div class="page-title">Handbooks</div>
   <div class="page-sub">Методические пособия</div>
@@ -989,7 +965,6 @@ function filterTpls(inp) {
 
 <!-- LIBRARY -->
 <div class="page" id="p-lu">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">УМК 25–26</div><div class="page-sub">Все компоненты</div>
   <div class="sec-h">Учебники и рабочие тетради</div>
   <a href="#" target="_blank" class="lib-link">📗 — добавить ссылку —<span class="lib-type">учебник</span></a>
@@ -999,27 +974,22 @@ function filterTpls(inp) {
   <a href="#" target="_blank" class="lib-link">— добавить ссылку —<span class="lib-type">тесты</span></a>
 </div>
 <div class="page" id="p-lc">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">Конференции</div><div class="page-sub">Library</div>
   <a href="#" target="_blank" class="lib-link">— добавить —<span class="lib-type">конференция</span></a>
 </div>
 <div class="page" id="p-lb">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">Вебинары Cambridge</div><div class="page-sub">Library</div>
   <a href="#" target="_blank" class="lib-link">— добавить —<span class="lib-type">вебинар</span></a>
 </div>
 <div class="page" id="p-lr">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">MEGA архив ридеров с аудио</div><div class="page-sub">Library</div>
   <a href="#" target="_blank" class="lib-link">Ссылка на MEGA-папку<span class="lib-type">архив</span></a>
 </div>
 <div class="page" id="p-lbk">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">Bucket list</div><div class="page-sub">Library</div>
   <a href="#" target="_blank" class="lib-link">— добавить —<span class="lib-type">идея</span></a>
 </div>
 <div class="page" id="p-lrc">
-  <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="page-title">Recommendations</div><div class="page-sub">Library</div>
   <a href="#" target="_blank" class="lib-link">— добавить —<span class="lib-type">рекомендация</span></a>
 </div>
@@ -1072,8 +1042,7 @@ function buildMsgPage(m) {
       <div class="tpl-foot"><button class="copy-btn" onclick="copyTpl(this)">📋 Копировать</button></div>
     </div>`).join('');
   return `<div class="page" id="p-${m.id}">
-    <div class="accent-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
-    <div class="page-title">${m.title}</div><div class="page-sub">Шаблоны ответов</div>
+  <div class="page-title">${m.title}</div><div class="page-sub">Шаблоны ответов</div>
     <div class="msg-search"><input type="text" placeholder="Поиск по шаблонам..." oninput="filterTpls(this)"></div>
     <div class="tpl-list">${items}</div>
   </div>`;

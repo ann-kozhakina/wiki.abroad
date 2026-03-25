@@ -22,7 +22,7 @@
   --font-head: 'Unbounded', sans-serif;
   --font-body: 'Mulish', sans-serif;
 }
-body { font-family: var(--font-body); background: var(--bg2); color: var(--text); display: block; min-height: 100vh; }
+body { font-family: var(--font-body); background: var(--bg2); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
 /* SIDEBAR */
 #sidebar { display: none; }
@@ -47,7 +47,7 @@ body { font-family: var(--font-body); background: var(--bg2); color: var(--text)
 #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 99; }
 
 /* CONTENT */
-#content { background: var(--bg); }
+#content { flex: 1; overflow-y: auto; background: var(--bg); }
 .page { display: none; padding: 48px 56px 72px; max-width: 860px; margin: 0 auto; }
 .page.active { display: block; }
 
@@ -457,12 +457,13 @@ function filterTpls(inp) {
   <div class="page-title">Main</div>
   <div class="page-sub">Выбери раздел</div>
   <div class="main-cards">
+  </div>
 </div>
 
 <!-- TEAMMATE PAGE -->
 <div class="page" id="p-team">
+  <button class="back-btn" onclick="goBack()">← Назад</button>
   <div class="page-title">Команда</div>
-  <div class="page-sub">Нажми на карточку — увидишь полный профиль</div>
   <div class="team-grid">
 
     <div class="team-card" id="tc-nastya" onclick="toggleProfile('nastya')">
@@ -735,8 +736,6 @@ function filterTpls(inp) {
 <!-- TESTING -->
 <div class="page" id="p-testing">
   <button class="back-btn" onclick="goBack()">← Назад</button>
-  <div class="page-eyebrow">Main · Тестирования</div>
-  <div class="page-title">Весна 2026</div>
   <div class="page-sub">Пособия, расписание и описание по группам</div>
 
   <div class="period-tabs">
@@ -891,13 +890,8 @@ function filterTpls(inp) {
           <div style="font-size:9px;color:var(--text-hint);margin-top:2px">—</div>
         </div>
       </div>
-        </div>
-      </div>
     </div>
   </div>
-
-
-
 </div>
 
 <!-- LEVEL SUBPAGES: Пособия для уроков -->

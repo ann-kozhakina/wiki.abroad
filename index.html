@@ -1295,11 +1295,11 @@ document.getElementById('msg-container').innerHTML = MSGS.map(buildMsgPage).join
   async function loadAll() {
     const [t1, t2] = await Promise.all([
       fetchTable('Data'),
-      fetchTable('Data High')
+      fetchTable('Data_high')
     ]);
     return [
       ...tableToStudents(t1, 15),   // Data:      % = col P (idx 15)
-      ...tableToStudents(t2, 18)    // Data High: % = col S (idx 18)
+      ...tableToStudents(t2, 18)    // Data_high: % = col S (idx 18)
     ];
   }
 
@@ -1315,7 +1315,6 @@ document.getElementById('msg-container').innerHTML = MSGS.map(buildMsgPage).join
             <span class="lw-count">${done}</span>
             <span class="lw-of">&thinsp;/&thinsp;${TOTAL}</span>
           </div>
-          <div class="lw-sub">из ${TOTAL} детей</div>
         </div>
         <div class="lw-pct-badge">${pct}%</div>
       </div>

@@ -269,147 +269,119 @@ body { font-family: var(--font-body); font-size: var(--fs-base); background: var
 }
 @media (max-width: 700px) { .live-widget-wrap { padding: 20px 20px 24px; } }
 
-.lw-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.lw-pulse {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--teal);
-  flex-shrink: 0;
-  animation: lwBlink 2.4s ease-in-out infinite;
-}
-@keyframes lwBlink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
-.lw-title {
-  font-family: var(--font-head);
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--bordeaux);
-  flex: 1;
-}
-.lw-updated {
-  font-size: 10px; color: var(--text-hint);
-}
-
 .lw-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: 1fr 2fr;
+  gap: 16px;
 }
 @media (max-width: 800px) { .lw-grid { grid-template-columns: 1fr; } }
 
-/* progress block */
-.lw-progress {
-  background: var(--white);
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
-  padding: 22px 24px 18px;
+/* левая — кольцо */
+.lw-left {
+  background: var(--white); border: 0.5px solid var(--border);
+  border-radius: 18px; padding: 24px 20px 22px;
+  display: flex; flex-direction: column; align-items: center;
 }
-.lw-progress-top {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  margin-bottom: 16px;
+.lw-live-row {
+  display: flex; align-items: center; gap: 7px;
+  align-self: flex-start; width: 100%; margin-bottom: 22px;
 }
-.lw-eyebrow {
-  font-family: var(--font-head); font-size: 9px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--text-hint); margin-bottom: 8px;
+.lw-pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--teal); flex-shrink: 0;
+  animation: lwBlink 2.4s ease-in-out infinite;
 }
-.lw-count-row { display: flex; align-items: baseline; gap: 5px; line-height: 1; }
-.lw-count {
-  font-family: var(--font-head); font-size: 48px; font-weight: 700;
-  color: var(--bordeaux); letter-spacing: -0.02em;
-  transition: opacity 0.3s;
+@keyframes lwBlink { 0%,100%{opacity:1} 50%{opacity:.2} }
+.lw-upd-txt { font-size: 10px; color: var(--text-hint); }
+
+.lw-ring-wrap {
+  position: relative; width: 180px; height: 180px; margin-bottom: 16px;
 }
-.lw-of {
-  font-family: var(--font-head); font-size: 20px; font-weight: 400;
-  color: var(--text-hint);
+.lw-ring-svg { transform: rotate(-90deg); display: block; }
+.lw-ring-track { fill: none; stroke: var(--bg2); stroke-width: 14; }
+.lw-ring-fill {
+  fill: none; stroke-width: 14; stroke-linecap: round;
+  stroke: url(#lwGrad);
+  stroke-dasharray: 502;
+  stroke-dashoffset: 502;
+  transition: stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);
 }
-.lw-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-.lw-pct-badge {
-  background: linear-gradient(135deg, var(--bordeaux), #8B2A58);
-  color: #fff; font-family: var(--font-head);
-  font-size: 18px; font-weight: 700;
-  padding: 10px 16px; border-radius: 12px;
-  flex-shrink: 0; letter-spacing: -0.01em;
+.lw-ring-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
 }
-.lw-bar-track {
-  height: 6px; background: var(--bg2);
-  border-radius: 100px; overflow: hidden; margin-bottom: 10px;
+.lw-ring-num {
+  font-family: var(--font-head); font-size: 46px; font-weight: 700;
+  color: var(--bordeaux); line-height: 1; letter-spacing: -.02em;
 }
-.lw-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--bordeaux), var(--teal));
-  border-radius: 100px;
-  transition: width 1.2s cubic-bezier(.4,0,.2,1);
-  min-width: 3px;
+.lw-ring-denom {
+  font-family: var(--font-head); font-size: 14px; font-weight: 400;
+  color: var(--text-hint); margin-top: 2px;
 }
-.lw-bar-footer {
-  display: flex; justify-content: space-between;
-  font-size: 11px; color: var(--text-hint);
+.lw-ring-caption {
+  font-family: var(--font-head); font-size: 11px; font-weight: 700;
+  color: var(--bordeaux); text-align: center;
 }
 
-/* leaderboard block */
-.lw-board {
-  background: var(--white);
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 20px;
-  display: flex; flex-direction: column;
+/* правая — список */
+.lw-right {
+  background: var(--white); border: 0.5px solid var(--border);
+  border-radius: 18px; padding: 22px 24px;
+}
+.lw-board-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
 }
 .lw-board-title {
-  font-family: var(--font-head); font-size: 9px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--text-hint); margin-bottom: 12px;
+  font-family: var(--font-head); font-size: 9px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--text-hint);
 }
-.lw-list { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-
-.lw-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 10px; border-radius: 9px;
-  transition: background 0.12s;
+.lw-board-tag {
+  font-size: 10px; color: var(--teal); font-weight: 700;
+  background: rgba(43,191,191,.1); border-radius: 20px; padding: 3px 10px;
 }
-.lw-row:hover { background: var(--bg2); }
-.lw-row.r1 { background: rgba(212,151,10,0.06); }
-.lw-row.r2 { background: rgba(158,158,158,0.06); }
-.lw-row.r3 { background: rgba(184,115,51,0.06); }
-
-.lw-medal { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
-.lw-rnum {
-  font-family: var(--font-head); font-size: 10px; font-weight: 700;
-  color: var(--text-hint); width: 20px; text-align: center; flex-shrink: 0;
+.lw-list { display: flex; flex-direction: column; gap: 5px; }
+.lw-item {
+  display: grid; grid-template-columns: 36px 1fr auto;
+  align-items: center; gap: 14px;
+  background: rgba(43,191,191,.07);
+  border: 0.5px solid transparent; border-radius: 12px; padding: 11px 14px;
+  transition: background .12s, border-color .12s;
 }
-.lw-info { flex: 1; min-width: 0; }
+.lw-item:hover { background: rgba(43,191,191,.13); border-color: rgba(43,191,191,.3); }
+.lw-rank-col { text-align: center; }
+.lw-medal { font-size: 20px; line-height: 1; }
+.lw-num { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-hint); }
+.lw-info { min-width: 0; }
 .lw-name {
-  font-family: var(--font-head); font-size: 10px; font-weight: 700;
-  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: var(--font-head); font-size: 13px; font-weight: 700;
+  color: var(--text); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; margin-bottom: 5px;
 }
-.lw-meta { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+.lw-tags { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.lw-lvl {
+  display: inline-flex; font-size: 9px; font-weight: 700;
+  font-family: var(--font-head); padding: 2px 7px; border-radius: 5px;
+  letter-spacing: .04em; text-transform: uppercase; flex-shrink: 0;
+}
+.lw-ls { background: rgba(212,133,10,.12); color: #9A5C00; }
+.lw-lm { background: rgba(107,53,168,.10); color: #5A2080; }
+.lw-lf { background: rgba(42,122,42,.10);  color: #1A6020; }
+.lw-lk { background: rgba(26,106,154,.12); color: #0A4A7A; }
+.lw-lp { background: rgba(139,31,90,.10);  color: #6A0040; }
+.lw-lo { background: var(--bg2); color: var(--text-muted); }
+.lw-group { font-size: 11px; color: var(--text-muted); }
 .lw-score {
-  font-family: var(--font-head); font-size: 12px; font-weight: 700;
-  flex-shrink: 0;
+  font-family: var(--font-head); font-size: 26px; font-weight: 700;
+  color: var(--bordeaux); line-height: 1; letter-spacing: -.02em; text-align: right;
 }
-.lw-score.s1 { color: #C68400; }
-.lw-score.s2 { color: #7A7A7A; }
-.lw-score.s3 { color: #9B5C1A; }
-.lw-score.sd { color: var(--bordeaux); }
+.lw-score .u { font-size: 13px; font-weight: 400; opacity: .45; }
 
-.lw-empty {
-  text-align: center; padding: 24px 12px;
-  font-size: 11px; color: var(--text-hint); font-style: italic;
-}
-.lw-loading {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 8px; padding: 32px; color: var(--text-hint); font-size: 11px;
-}
-.lw-spinner {
-  width: 18px; height: 18px;
-  border: 2px solid var(--bg2); border-top-color: var(--teal);
-  border-radius: 50%; animation: spin 0.75s linear infinite;
-}
+.lw-empty { text-align: center; padding: 28px 12px; font-size: 11px; color: var(--text-hint); font-style: italic; }
+.lw-loading { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px; color: var(--text-hint); font-size: 11px; }
+.lw-spinner { width: 18px; height: 18px; border: 2px solid var(--bg2); border-top-color: var(--teal); border-radius: 50%; animation: spin .75s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.lw-error { font-size: 11px; color: var(--bordeaux); padding: 8px 0; line-height: 1.6; }
 </style>
 <script>
 // All functions declared immediately so onclick= attributes work at parse time
@@ -574,29 +546,44 @@ function filterTpls(inp) {
 
   <!-- ── LIVE TESTING WIDGET ── -->
   <div class="live-widget-wrap reveal" style="--delay:0.04s">
-    <div class="lw-header">
-      <div class="lw-pulse"></div>
-      <div class="lw-title">Тестирование · Весна 2026</div>
-      <div class="lw-updated" id="lw-updated"></div>
-    </div>
     <div class="lw-grid">
-      <!-- прогресс -->
-      <div class="lw-progress" id="lw-progress">
-        <div class="lw-loading">
-          <div class="lw-spinner"></div>
-          <span>Загружаем…</span>
+
+      <!-- кольцо -->
+      <div class="lw-left">
+        <div class="lw-live-row">
+          <div class="lw-pulse"></div>
+          <div class="lw-upd-txt" id="lw-upd">обновляется…</div>
         </div>
-      </div>
-      <!-- топ-10 -->
-      <div class="lw-board">
-        <div class="lw-board-title">Топ-10 — результат ≥ 70%</div>
-        <div class="lw-list" id="lw-board">
-          <div class="lw-loading">
-            <div class="lw-spinner"></div>
-            <span>Загружаем…</span>
+        <div class="lw-ring-wrap">
+          <svg class="lw-ring-svg" width="180" height="180" viewBox="0 0 180 180">
+            <defs>
+              <linearGradient id="lwGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#2BBFBF"/>
+                <stop offset="100%" stop-color="#5C1A3A"/>
+              </linearGradient>
+            </defs>
+            <circle class="lw-ring-track" cx="90" cy="90" r="80"/>
+            <circle class="lw-ring-fill"  cx="90" cy="90" r="80" id="lw-arc"/>
+          </svg>
+          <div class="lw-ring-center">
+            <div class="lw-ring-num"  id="lw-done">—</div>
+            <div class="lw-ring-denom" id="lw-denom">/ —</div>
           </div>
         </div>
+        <div class="lw-ring-caption" id="lw-caption">—% сдали тест</div>
       </div>
+
+      <!-- список -->
+      <div class="lw-right">
+        <div class="lw-board-head">
+          <div class="lw-board-title">Топ-10 · результат ≥ 70%</div>
+          <div class="lw-board-tag">Весна 2026</div>
+        </div>
+        <div id="lw-board">
+          <div class="lw-loading"><div class="lw-spinner"></div><span>Загружаем…</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
   <!-- ── / LIVE TESTING WIDGET ── -->
@@ -1303,62 +1290,67 @@ document.getElementById('msg-container').innerHTML = MSGS.map(buildMsgPage).join
     ];
   }
 
-  function renderProgress(students) {
-    const done = students.length;
-    const pct  = TOTAL > 0 ? Math.min(100, Math.round(done / TOTAL * 100)) : 0;
-    const left = Math.max(0, TOTAL - done);
-    document.getElementById('lw-progress').innerHTML = `
-      <div class="lw-progress-top">
-        <div>
-          <div class="lw-eyebrow">Сдали тест</div>
-          <div class="lw-count-row">
-            <span class="lw-count">${done}</span>
-            <span class="lw-of">&thinsp;/&thinsp;${TOTAL}</span>
-          </div>
-        </div>
-        <div class="lw-pct-badge">${pct}%</div>
-      </div>
-      <div class="lw-bar-track"><div class="lw-bar-fill" style="width:${pct}%"></div></div>
-      <div class="lw-bar-footer"><span>Завершили</span><span>Ещё не сдали: ${left}</span></div>`;
-  }
+  const CIRC = 2 * Math.PI * 80; // 502.6
 
-  function renderBoard(students) {
-    const top10 = students
-      .filter(s => s.pct !== null && s.pct >= 70)
-      .sort((a, b) => b.pct - a.pct)
-      .slice(0, 10);
-
-    if (!top10.length) {
-      document.getElementById('lw-board').innerHTML = '<div class="lw-empty">Пока нет результатов ≥ 70%</div>';
-      return;
-    }
-    const medals = ['🥇','🥈','🥉'];
-    const rowCls = ['r1','r2','r3'];
-    const scCls  = ['s1','s2','s3'];
-    document.getElementById('lw-board').innerHTML = top10.map((s, i) => `
-      <div class="lw-row ${rowCls[i]||''}">
-        ${i < 3
-          ? `<div class="lw-medal">${medals[i]}</div>`
-          : `<div class="lw-rnum">${i+1}</div>`}
-        <div class="lw-info">
-          <div class="lw-name">${s.name}</div>
-          <div class="lw-meta">${s.level}${s.group?' · '+s.group:''}</div>
-        </div>
-        <div class="lw-score ${scCls[i]||'sd'}">${Math.round(s.pct)}%</div>
-      </div>`).join('');
+  function lwLvlClass(lvl) {
+    const l = lvl.toLowerCase();
+    if (l.includes('starter')) return 'lw-ls';
+    if (l.includes('mover'))   return 'lw-lm';
+    if (l.includes('flyer'))   return 'lw-lf';
+    if (l.includes('key'))     return 'lw-lk';
+    if (l.includes('prelim') || l.includes('pet')) return 'lw-lp';
+    return 'lw-lo';
   }
 
   async function lwRefresh() {
     try {
       const students = await loadAll();
-      renderProgress(students);
-      renderBoard(students);
-      const t = new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
-      const el = document.getElementById('lw-updated');
-      if (el) el.textContent = 'обновлено в ' + t;
+      const done = students.length;
+      const pct  = Math.min(100, Math.round(done / TOTAL * 100));
+
+      // кольцо
+      const arc = document.getElementById('lw-arc');
+      if (arc) arc.style.strokeDashoffset = CIRC * (1 - pct / 100);
+      const elDone = document.getElementById('lw-done');
+      if (elDone) elDone.textContent = done;
+      const elDenom = document.getElementById('lw-denom');
+      if (elDenom) elDenom.textContent = '/ ' + TOTAL;
+      const elCap = document.getElementById('lw-caption');
+      if (elCap) elCap.textContent = pct + '% сдали тест';
+
+      // время
+      const t = new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'});
+      const elUpd = document.getElementById('lw-upd');
+      if (elUpd) elUpd.textContent = 'обновлено в ' + t;
+
+      // список топ-10
+      const MEDALS = ['🥇','🥈','🥉'];
+      const top10 = students
+        .filter(s => s.pct !== null && s.pct >= 70)
+        .sort((a, b) => b.pct - a.pct)
+        .slice(0, 10);
+
+      const board = document.getElementById('lw-board');
+      if (!board) return;
+      board.innerHTML = top10.length === 0
+        ? '<div class="lw-empty">Пока нет результатов ≥ 70%</div>'
+        : '<div class="lw-list">' + top10.map((s, i) => `
+            <div class="lw-item">
+              <div class="lw-rank-col">
+                ${i < 3 ? `<div class="lw-medal">${MEDALS[i]}</div>` : `<div class="lw-num">${i+1}</div>`}
+              </div>
+              <div class="lw-info">
+                <div class="lw-name">${s.name}</div>
+                <div class="lw-tags">
+                  <span class="lw-lvl ${lwLvlClass(s.level)}">${s.level}</span>
+                  ${s.group ? `<span class="lw-group">${s.group}</span>` : ''}
+                </div>
+              </div>
+              <div class="lw-score">${Math.round(s.pct)}<span class="u">%</span></div>
+            </div>`).join('') + '</div>';
     } catch(e) {
-      const p = document.getElementById('lw-progress');
-      if (p) p.innerHTML = `<div class="lw-error">Не удалось загрузить данные.<br><small>${e.message}</small><br><br>Убедитесь, что таблица открыта для просмотра по ссылке.</div>`;
+      const b = document.getElementById('lw-board');
+      if (b) b.innerHTML = `<div class="lw-empty">Ошибка загрузки: ${e.message}</div>`;
     }
   }
 

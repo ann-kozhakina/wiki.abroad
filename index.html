@@ -271,7 +271,7 @@ body { font-family: var(--font-body); font-size: var(--fs-base); background: var
 
 .lw-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 210px 1fr;
   gap: 16px;
 }
 @media (max-width: 800px) { .lw-grid { grid-template-columns: 1fr; } }
@@ -341,28 +341,47 @@ body { font-family: var(--font-body); font-size: var(--fs-base); background: var
   font-size: 10px; color: var(--teal); font-weight: 700;
   background: rgba(43,191,191,.1); border-radius: 20px; padding: 3px 10px;
 }
-.lw-list { display: flex; flex-direction: column; gap: 5px; }
+/* карточки — сетка */
+.lw-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+@media (max-width: 900px) { .lw-list { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .lw-list { grid-template-columns: repeat(2, 1fr); } }
 .lw-item {
-  display: grid; grid-template-columns: 36px 1fr auto;
-  align-items: center; gap: 14px;
+  display: flex; flex-direction: column; gap: 6px;
   background: rgba(43,191,191,.07);
-  border: 0.5px solid transparent; border-radius: 12px; padding: 11px 14px;
+  border: 0.5px solid transparent; border-radius: 12px; padding: 12px 14px;
   transition: background .12s, border-color .12s;
 }
 .lw-item:hover { background: rgba(43,191,191,.13); border-color: rgba(43,191,191,.3); }
-.lw-rank-col { text-align: center; }
-.lw-medal { font-size: 20px; line-height: 1; }
-.lw-num { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-hint); }
-.lw-info { min-width: 0; }
-.lw-name {
-  font-family: var(--font-head); font-size: 13px; font-weight: 700;
-  color: var(--text); white-space: nowrap; overflow: hidden;
-  text-overflow: ellipsis; margin-bottom: 5px;
+.lw-item.hidden { display: none; }
+/* верхняя строка карточки: ранг + счёт */
+.lw-card-top {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;
 }
-.lw-tags { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.lw-medal { font-size: 18px; line-height: 1; }
+.lw-num {
+  font-family: var(--font-head); font-size: 11px; font-weight: 700;
+  color: var(--text-hint); min-width: 20px;
+}
+.lw-score {
+  font-family: var(--font-head); font-size: 20px; font-weight: 700;
+  color: var(--bordeaux); line-height: 1; letter-spacing: -.02em;
+}
+.lw-score .u { font-size: 11px; font-weight: 400; opacity: .45; }
+/* имя */
+.lw-name {
+  font-family: var(--font-head); font-size: 11px; font-weight: 700;
+  color: var(--text); line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+/* бейджи */
+.lw-tags { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-top: 2px; }
 .lw-lvl {
-  display: inline-flex; font-size: 9px; font-weight: 700;
-  font-family: var(--font-head); padding: 2px 7px; border-radius: 5px;
+  display: inline-flex; font-size: 8px; font-weight: 700;
+  font-family: var(--font-head); padding: 2px 6px; border-radius: 4px;
   letter-spacing: .04em; text-transform: uppercase; flex-shrink: 0;
 }
 .lw-ls { background: rgba(212,133,10,.12); color: #9A5C00; }
@@ -371,12 +390,42 @@ body { font-family: var(--font-body); font-size: var(--fs-base); background: var
 .lw-lk { background: rgba(26,106,154,.12); color: #0A4A7A; }
 .lw-lp { background: rgba(139,31,90,.10);  color: #6A0040; }
 .lw-lo { background: var(--bg2); color: var(--text-muted); }
-.lw-group { font-size: 11px; color: var(--text-muted); }
-.lw-score {
-  font-family: var(--font-head); font-size: 26px; font-weight: 700;
-  color: var(--bordeaux); line-height: 1; letter-spacing: -.02em; text-align: right;
+.lw-group { font-size: 10px; color: var(--text-muted); }
+
+/* ── фильтры под кольцом ── */
+.lw-divider { width: 100%; height: 0.5px; background: var(--border); margin: 18px 0 14px; }
+.lw-filter-label {
+  font-family: var(--font-head); font-size: 8px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--text-hint); margin-bottom: 8px; align-self: flex-start;
 }
-.lw-score .u { font-size: 13px; font-weight: 400; opacity: .45; }
+.lw-filter-btns { display: flex; flex-wrap: wrap; gap: 5px; width: 100%; margin-bottom: 10px; }
+.lw-fbtn {
+  font-family: var(--font-head); font-size: 8px; font-weight: 700;
+  letter-spacing: .03em; text-transform: uppercase;
+  border: 1.5px solid transparent; border-radius: 6px;
+  padding: 5px 9px; cursor: pointer; line-height: 1;
+  transition: all .15s; opacity: .45; background: transparent;
+}
+.lw-fbtn:hover { opacity: .75; }
+.lw-fbtn.active { opacity: 1; }
+.lw-fbtn.f-all              { color: var(--teal); border-color: rgba(43,191,191,.35); opacity: 1; }
+.lw-fbtn.f-all.active       { background: rgba(43,191,191,.15); border-color: var(--teal); }
+.lw-fbtn.f-ls               { color: #9A5C00; border-color: rgba(212,133,10,.3); }
+.lw-fbtn.f-ls.active        { background: rgba(212,133,10,.15); border-color: #D4850A; opacity: 1; }
+.lw-fbtn.f-lm               { color: #5A2080; border-color: rgba(107,53,168,.3); }
+.lw-fbtn.f-lm.active        { background: rgba(107,53,168,.15); border-color: #6B35A8; opacity: 1; }
+.lw-fbtn.f-lf               { color: #1A6020; border-color: rgba(42,122,42,.3); }
+.lw-fbtn.f-lf.active        { background: rgba(42,122,42,.15); border-color: #2A7A2A; opacity: 1; }
+.lw-fbtn.f-lk               { color: #0A4A7A; border-color: rgba(26,106,154,.3); }
+.lw-fbtn.f-lk.active        { background: rgba(26,106,154,.15); border-color: #1A6A9A; opacity: 1; }
+.lw-fbtn.f-lp               { color: #6A0040; border-color: rgba(139,31,90,.3); }
+.lw-fbtn.f-lp.active        { background: rgba(139,31,90,.15); border-color: #8B1F5A; opacity: 1; }
+.lw-filter-count {
+  font-family: var(--font-head); font-size: 9px; font-weight: 700;
+  color: var(--bordeaux); align-self: flex-start;
+}
+.lw-filter-count span { font-weight: 400; color: var(--text-hint); }
 
 .lw-empty { text-align: center; padding: 28px 12px; font-size: 11px; color: var(--text-hint); font-style: italic; }
 .lw-loading { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px; color: var(--text-hint); font-size: 11px; }
@@ -571,12 +620,24 @@ function filterTpls(inp) {
           </div>
         </div>
         <div class="lw-ring-caption" id="lw-caption">—% сдали тест</div>
+
+        <div class="lw-divider"></div>
+        <div class="lw-filter-label">уровень</div>
+        <div class="lw-filter-btns">
+          <button class="lw-fbtn f-all active" data-lvl="all">Все</button>
+          <button class="lw-fbtn f-ls" data-lvl="ls">Starters</button>
+          <button class="lw-fbtn f-lm" data-lvl="lm">Movers</button>
+          <button class="lw-fbtn f-lf" data-lvl="lf">Flyers</button>
+          <button class="lw-fbtn f-lk" data-lvl="lk">KEY</button>
+          <button class="lw-fbtn f-lp" data-lvl="lp">PET</button>
+        </div>
+        <div class="lw-filter-count" id="lw-filter-count">—</div>
       </div>
 
       <!-- список -->
       <div class="lw-right">
         <div class="lw-board-head">
-          <div class="lw-board-title">Топ-10 · результат ≥ 70%</div>
+          <div class="lw-board-title" id="lw-board-title">Топ-30 · результат ≥ 70%</div>
           <div class="lw-board-tag">Весна 2026</div>
         </div>
         <div id="lw-board">
@@ -1231,7 +1292,7 @@ document.getElementById('msg-container').innerHTML = MSGS.map(buildMsgPage).join
   // Google Visualization API — работает без CORS с любого домена
   function gvizUrl(sheetName) {
     return 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
-           '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(sheetName);
+           '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(sheetName);
   }
 
   async function fetchTable(sheetName) {
@@ -1302,6 +1363,59 @@ document.getElementById('msg-container').innerHTML = MSGS.map(buildMsgPage).join
     return 'lw-lo';
   }
 
+  // ── фильтр ──
+  const activeFilters  = new Set();
+  let   lwWroteTotal   = 0;
+  const lwWroteByLevel = {};
+  const LVL_NAMES = { ls:'Starters', lm:'Movers', lf:'Flyers', lk:'KEY', lp:'PET' };
+
+  function lwApplyFilter() {
+    const title   = document.getElementById('lw-board-title');
+    const counter = document.getElementById('lw-filter-count');
+    const items   = document.querySelectorAll('#lw-board .lw-item');
+    let visible = 0, wroteTotal = 0;
+
+    if (activeFilters.size === 0) {
+      items.forEach(el => el.classList.remove('hidden'));
+      visible    = items.length;
+      wroteTotal = lwWroteTotal;
+      if (title) title.textContent = 'Топ-30 · результат ≥ 70%';
+    } else {
+      items.forEach(el => {
+        const key  = el.dataset.lvlclass.replace('lw-', '');
+        const show = activeFilters.has(key);
+        el.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      activeFilters.forEach(k => { wroteTotal += (lwWroteByLevel[k] || 0); });
+      const sel = [...activeFilters].map(k => LVL_NAMES[k]).join(', ');
+      if (title) title.textContent = sel + ' · результат ≥ 70%';
+    }
+
+    if (counter) counter.innerHTML =
+      `${visible} <span>из ${wroteTotal} написали · 70%+</span>`;
+  }
+
+  function lwSetupFilters() {
+    document.querySelectorAll('.lw-fbtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lvl = btn.dataset.lvl;
+        if (lvl === 'all') {
+          activeFilters.clear();
+          document.querySelectorAll('.lw-fbtn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        } else {
+          document.querySelector('.lw-fbtn.f-all').classList.remove('active');
+          if (activeFilters.has(lvl)) { activeFilters.delete(lvl); btn.classList.remove('active'); }
+          else                        { activeFilters.add(lvl);    btn.classList.add('active'); }
+          if (activeFilters.size === 0)
+            document.querySelector('.lw-fbtn.f-all').classList.add('active');
+        }
+        lwApplyFilter();
+      });
+    });
+  }
+
   async function lwRefresh() {
     try {
       const students = await loadAll();
@@ -1323,38 +1437,48 @@ document.getElementById('msg-container').innerHTML = MSGS.map(buildMsgPage).join
       const elUpd = document.getElementById('lw-upd');
       if (elUpd) elUpd.textContent = 'обновлено в ' + t;
 
-      // список топ-10
+      // считаем написавших по уровням (для счётчика фильтра)
+      lwWroteTotal = done;
+      Object.keys(lwWroteByLevel).forEach(k => delete lwWroteByLevel[k]);
+      students.forEach(s => {
+        const key = lwLvlClass(s.level).replace('lw-', '');
+        lwWroteByLevel[key] = (lwWroteByLevel[key] || 0) + 1;
+      });
+
+      // карточки топ-30
       const MEDALS = ['🥇','🥈','🥉'];
-      const top10 = students
+      const top30  = students
         .filter(s => s.pct !== null && s.pct >= 70)
         .sort((a, b) => b.pct - a.pct)
-        .slice(0, 10);
+        .slice(0, 30);
 
       const board = document.getElementById('lw-board');
       if (!board) return;
-      board.innerHTML = top10.length === 0
+      board.innerHTML = top30.length === 0
         ? '<div class="lw-empty">Пока нет результатов ≥ 70%</div>'
-        : '<div class="lw-list">' + top10.map((s, i) => `
-            <div class="lw-item">
-              <div class="lw-rank-col">
+        : '<div class="lw-list">' + top30.map((s, i) => `
+            <div class="lw-item" data-lvlclass="${lwLvlClass(s.level)}">
+              <div class="lw-card-top">
                 ${i < 3 ? `<div class="lw-medal">${MEDALS[i]}</div>` : `<div class="lw-num">${i+1}</div>`}
+                <div class="lw-score">${Math.round(s.pct)}<span class="u">%</span></div>
               </div>
-              <div class="lw-info">
-                <div class="lw-name">${s.name}</div>
-                <div class="lw-tags">
-                  <span class="lw-lvl ${lwLvlClass(s.level)}">${s.level}</span>
-                  ${s.group ? `<span class="lw-group">${s.group}</span>` : ''}
-                </div>
+              <div class="lw-name">${s.name}</div>
+              <div class="lw-tags">
+                <span class="lw-lvl ${lwLvlClass(s.level)}">${s.level}</span>
+                ${s.group ? `<span class="lw-group">${s.group}</span>` : ''}
               </div>
-              <div class="lw-score">${Math.round(s.pct)}<span class="u">%</span></div>
             </div>`).join('') + '</div>';
+
+      // применяем текущий фильтр (сохраняется между обновлениями)
+      lwApplyFilter();
     } catch(e) {
       const b = document.getElementById('lw-board');
       if (b) b.innerHTML = `<div class="lw-empty">Ошибка загрузки: ${e.message}</div>`;
     }
   }
 
-  // запуск: сразу и каждые 20 мин
+  // запуск: фильтры однократно, данные сразу и каждые 20 мин
+  lwSetupFilters();
   lwRefresh();
   setInterval(lwRefresh, REFRESH_MS);
 })();

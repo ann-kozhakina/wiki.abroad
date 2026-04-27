@@ -111,15 +111,15 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 }
 .lgs-line { flex: 1; height: 0.5px; background: var(--border); }
 
-.group-cards { display: flex; flex-wrap: wrap; gap: 16px; }
+.group-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(460px, 1fr)); gap: 16px; }
 .group-card  {
   background: var(--white); border: 0.5px solid var(--border);
   border-radius: 20px; min-width: 440px; flex: 1 1 440px; max-width: 620px;
   overflow: hidden;
 }
-.gc-head  { padding: 22px 24px 16px; }
-.gc-name  { font-family: var(--font-head); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.gc-count { font-size: 12px; color: var(--text-muted); }
+.gc-head  { padding: 18px 24px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.gc-name  { font-family: var(--font-head); font-size: 15px; font-weight: 700; }
+.gc-count { font-size: 12px; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
 
 .gc-zone        { padding: 14px 24px 16px; }
 .gc-zone.z-pass { background: rgba(43,191,191,.07); border-top: 0.5px solid rgba(43,191,191,.2); }
@@ -233,6 +233,10 @@ function pctCol(v) {
 }
 function lvlBarColor(cls) {
   const map = { starters:'#C88A20', movers:'#7D4EC0', flyers:'#2E8B2E', key:'#1B6CAF', pet:'#9A2060', other:'#888780' };
+  return map[cls] || map.other;
+}
+function lvlTextColor(cls) {
+  const map = { starters:'#9A5C00', movers:'#5A2080', flyers:'#1A6020', key:'#0A4A7A', pet:'#6A0040', other:'#7A6E6A' };
   return map[cls] || map.other;
 }
 function sbRow(label, v, barCol) {
@@ -420,70 +424,34 @@ function render(students) {
     <div class="section-title">По уровням</div>
 
     ${(()=>{
-      const BASE = ['Starters','Movers','Flyers'];
-      const HIGH = ['KEY','PET'];
       function renderCard(l) {
         const cls = lvlCls(l.level);
         const barCol = lvlBarColor(cls);
-        const passCol = l.passRate>=70 ? 'var(--teal)' : l.passRate>=50 ? '#D4850A' : 'var(--bordeaux)';
-        const skillRows = l.level==='KEY'||l.level==='PET'
-          ? `${sbRow('Listening',l.lis,barCol)}${sbRow('R&W',l.rw,barCol)}${sbRow('Speaking',l.spk,barCol)}`
-          : `${sbRow('Listening',l.lis,barCol)}${sbRow('R&W',l.rw,barCol)}${sbRow('Speaking',l.spk,barCol)}`;
+        const txtCol = lvlTextColor(cls);
         return `<div class="level-card">
           <div class="level-tag lc-${cls}">${l.level}</div>
           <div class="lc-dual">
             <div class="lc-mini">
-              <div class="lc-mini-v tc-${cls}">${l.wrote}</div>
+              <div class="lc-mini-v" style="color:${txtCol}">${l.wrote}</div>
               <div class="lc-mini-l">писали<br>тест</div>
             </div>
             <div class="lc-mini">
-              <div class="lc-mini-v" style="color:${passCol}">${l.passRate}%</div>
+              <div class="lc-mini-v" style="color:${txtCol}">${l.passRate}%</div>
               <div class="lc-mini-l">прошли<br>70%+</div>
             </div>
           </div>
           <div class="bars-title">% выполнения по навыку</div>
-          <div class="skill-bars">${skillRows}</div>
+          <div class="skill-bars">
+            ${sbRow('Listening',l.lis,barCol)}
+            ${sbRow('R&W',l.rw,barCol)}
+            ${sbRow('Speaking',l.spk,barCol)}
+          </div>
           ${l.weak && l.weak[1]!==null ? `<div class="weak-tag">Труднее всего даётся: ${l.weak[0]}</div>` : ''}
         </div>`;
       }
-      const baseCards = lvlStats.filter(l=>BASE.includes(l.level));
-      const highCards = lvlStats.filter(l=>HIGH.includes(l.level));
-      return `
-      <div class="level-grid">${baseCards.map(renderCard).join('')}</div>
-      ${highCards.length ? `
-      <div class="level-row-header"><div class="lrh-line"></div><span class="lrh-label">Cambridge exams</span><div class="lrh-line"></div></div>
-      <div class="level-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,280px))">${highCards.map(renderCard).join('')}</div>` : ''}`;
+      return `<div class="level-grid">${lvlStats.map(renderCard).join('')}</div>`;
     })()}
   </div>
-
-  <!-- DIAGNOSTICS (collapsible) -->
-  <details style="margin-bottom:36px">
-    <summary style="cursor:pointer;font-family:var(--font-head);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-hint);padding:10px 0">▶ Диагностика данных (для проверки)</summary>
-    <div style="overflow-x:auto;margin-top:12px">
-      <table style="width:100%;border-collapse:collapse;font-size:11px">
-        <thead><tr style="background:var(--bg2)">
-          <th style="text-align:left;padding:6px 10px;border:0.5px solid var(--border)">Уровень</th>
-          <th style="text-align:left;padding:6px 10px;border:0.5px solid var(--border)">Группа</th>
-          <th style="text-align:left;padding:6px 10px;border:0.5px solid var(--border)">Имя</th>
-          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">Listening</th>
-          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">R&W</th>
-          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">Speaking</th>
-          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">Total</th>
-        </tr></thead>
-        <tbody>
-          ${students.map(s=>`<tr>
-            <td style="padding:4px 10px;border:0.5px solid var(--border)">${s.level}</td>
-            <td style="padding:4px 10px;border:0.5px solid var(--border)">${s.group}</td>
-            <td style="padding:4px 10px;border:0.5px solid var(--border)">${s.name}</td>
-            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border)">${s.listening??'—'}</td>
-            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border)">${s.rw??'—'}</td>
-            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border)">${s.speaking??'—'}</td>
-            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border);font-weight:700">${s.total??'—'}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>
-  </details>
 
   <!-- BY GROUP -->
   <div class="section">
@@ -543,8 +511,8 @@ function render(students) {
 
             return `
             <div class="group-card">
-              <div class="gc-head">
-                <div class="gc-name">${g.group}</div>
+              <div class="gc-head lc-${cls}">
+                <div class="gc-name tc-${cls}">${g.group}</div>
                 <div class="gc-count">${done2.length} человек писали тест</div>
               </div>
               ${passZone}

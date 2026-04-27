@@ -42,49 +42,56 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .sum-val .u { font-size: 20px; font-weight: 400; opacity: .4; }
 .sum-note  { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
 
-/* ── INSIGHTS ── */
-.insights-box {
-  background: var(--bordeaux); border-radius: 20px; padding: 22px 26px;
-  margin-bottom: 48px;
-}
-.insights-title { font-family: var(--font-head); font-size: 8px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 14px; }
-.insights-list  { display: flex; flex-direction: column; gap: 8px; }
-.insight-item {
-  display: flex; align-items: flex-start; gap: 10px;
-  font-size: 13px; color: rgba(255,255,255,.9); line-height: 1.4;
-}
-.insight-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 6px; }
+/* ── КРАТКАЯ СВОДКА ── */
+.svod-box   { background: var(--bordeaux); border-radius: 20px; padding: 26px 28px 24px; margin-bottom: 48px; }
+.svod-title { font-family: var(--font-head); font-size: 8px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 20px; }
+.svod-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 12px; margin-bottom: 20px; }
+.svod-tile  { background: rgba(255,255,255,.08); border-radius: 14px; padding: 18px 20px; }
+.svod-tile-lbl  { font-family: var(--font-head); font-size: 8px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 10px; }
+.svod-tile-main { font-family: var(--font-head); font-size: 24px; font-weight: 700; color: #fff;
+  line-height: 1.1; margin-bottom: 4px; }
+.svod-tile-sub  { font-size: 13px; color: rgba(255,255,255,.65); }
+.svod-tile-val  { font-family: var(--font-head); font-size: 32px; font-weight: 700; color: var(--teal);
+  line-height: 1; }
+.svod-divider   { height: 0.5px; background: rgba(255,255,255,.15); margin-bottom: 16px; }
+.svod-skills    { display: flex; flex-wrap: wrap; gap: 8px; }
+.svod-skill-tag { background: rgba(255,255,255,.1); border-radius: 10px; padding: 8px 14px; }
+.svod-skill-lvl { font-family: var(--font-head); font-size: 8px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 4px; }
+.svod-skill-name{ font-family: var(--font-head); font-size: 12px; font-weight: 700; color: rgba(255,255,255,.9); }
 
 /* ── LEVEL CARDS ── */
-.level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 18px; }
 .level-card {
   background: var(--white); border: 0.5px solid var(--border);
-  border-radius: 20px; padding: 20px 20px 18px;
+  border-radius: 22px; padding: 28px 28px 26px;
 }
 .level-tag {
-  display: inline-flex; font-family: var(--font-head); font-size: 9px; font-weight: 700;
-  letter-spacing: .05em; text-transform: uppercase; padding: 4px 12px; border-radius: 7px; margin-bottom: 14px;
+  display: inline-flex; font-family: var(--font-head); font-size: 10px; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase; padding: 5px 14px; border-radius: 8px; margin-bottom: 20px;
 }
-.lc-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-.lc-mini { background: var(--bg2); border-radius: 10px; padding: 9px 10px; text-align: center; }
-.lc-mini-v { font-family: var(--font-head); font-size: 20px; font-weight: 700; line-height: 1; }
-.lc-mini-l { font-size: 9px; color: var(--text-muted); margin-top: 3px; line-height: 1.3; }
-.bars-title { font-family: var(--font-head); font-size: 8px; font-weight: 600; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--text-hint); margin-bottom: 8px; }
-.skill-bars  { display: flex; flex-direction: column; gap: 6px; }
-.sb-row      { display: grid; grid-template-columns: 66px 1fr 30px; align-items: center; gap: 6px; }
-.sb-lbl      { font-size: 10px; color: var(--text-muted); }
-.sb-track    { height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
-.sb-fill     { height: 100%; border-radius: 3px; opacity: .85; }
-.sb-pct      { font-family: var(--font-head); font-size: 9px; font-weight: 700; text-align: right; }
+.lc-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+.lc-mini { background: var(--bg2); border-radius: 14px; padding: 16px 18px; text-align: center; }
+.lc-mini-v { font-family: var(--font-head); font-size: 36px; font-weight: 700; line-height: 1; }
+.lc-mini-l { font-size: 11px; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
+.bars-title { font-family: var(--font-head); font-size: 9px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-hint); margin-bottom: 10px; }
+.skill-bars  { display: flex; flex-direction: column; gap: 8px; }
+.sb-row      { display: grid; grid-template-columns: 80px 1fr 42px; align-items: center; gap: 8px; }
+.sb-lbl      { font-size: 12px; color: var(--text-muted); }
+.sb-track    { height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; }
+.sb-fill     { height: 100%; border-radius: 4px; opacity: .85; }
+.sb-pct      { font-family: var(--font-head); font-size: 11px; font-weight: 700; text-align: right; }
 .weak-tag {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-family: var(--font-head); font-size: 8px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-head); font-size: 10px; font-weight: 700;
   letter-spacing: .04em; text-transform: uppercase;
   background: rgba(92,26,58,.1); color: var(--bordeaux);
-  padding: 4px 9px; border-radius: 5px; margin-top: 12px;
+  padding: 6px 14px; border-radius: 7px; margin-top: 16px;
 }
-.weak-tag::before { content: '↓'; font-size: 10px; }
+.weak-tag::before { content: '↓'; font-size: 12px; }
 
 /* ── LEVEL CARD ROW GROUPING ── */
 .level-row-header {
@@ -104,44 +111,44 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 }
 .lgs-line { flex: 1; height: 0.5px; background: var(--border); }
 
-.group-cards { display: flex; flex-wrap: wrap; gap: 12px; }
+.group-cards { display: flex; flex-wrap: wrap; gap: 16px; }
 .group-card  {
   background: var(--white); border: 0.5px solid var(--border);
-  border-radius: 18px; min-width: 250px; flex: 1 1 250px; max-width: 400px;
+  border-radius: 20px; min-width: 440px; flex: 1 1 440px; max-width: 620px;
   overflow: hidden;
 }
-.gc-head  { padding: 16px 18px 12px; }
-.gc-name  { font-family: var(--font-head); font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-.gc-count { font-size: 11px; color: var(--text-muted); }
+.gc-head  { padding: 22px 24px 16px; }
+.gc-name  { font-family: var(--font-head); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.gc-count { font-size: 12px; color: var(--text-muted); }
 
-.gc-zone        { padding: 10px 18px 12px; }
+.gc-zone        { padding: 14px 24px 16px; }
 .gc-zone.z-pass { background: rgba(43,191,191,.07); border-top: 0.5px solid rgba(43,191,191,.2); }
 .gc-zone.z-low  { background: rgba(92,26,58,.05);  border-top: 0.5px solid rgba(92,26,58,.15); }
-.gc-zone.z-empty { border-top: 0.5px solid var(--border); padding: 10px 18px; }
+.gc-zone.z-empty { border-top: 0.5px solid var(--border); padding: 14px 24px; }
 
-.gz-header { display: flex; align-items: center; gap: 7px; margin-bottom: 9px; }
-.gz-dot    { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.gz-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.gz-dot    { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .gz-dot.pass { background: var(--teal); }
 .gz-dot.low  { background: var(--bordeaux); opacity: .7; }
-.gz-lbl    { font-family: var(--font-head); font-size: 8px; font-weight: 700;
+.gz-lbl    { font-family: var(--font-head); font-size: 9px; font-weight: 700;
   letter-spacing: .1em; text-transform: uppercase; }
 .gz-lbl.pass { color: #0A6A6A; }
 .gz-lbl.low  { color: var(--bordeaux); }
-.gz-cnt    { font-size: 10px; color: var(--text-muted); margin-left: auto; }
+.gz-cnt    { font-size: 11px; color: var(--text-muted); margin-left: auto; }
 
-.stu-row   { display: flex; align-items: center; gap: 6px; padding: 4px 0;
+.stu-row   { display: flex; align-items: center; gap: 8px; padding: 7px 0;
   border-bottom: 0.5px solid rgba(0,0,0,.05); }
 .stu-row:last-child { border-bottom: none; }
-.stu-name  { flex: 1; font-size: 12px; font-weight: 600; line-height: 1.3; }
-.stu-score { font-family: var(--font-head); font-size: 12px; font-weight: 700;
-  min-width: 36px; text-align: right; flex-shrink: 0; }
+.stu-name  { flex: 1; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.stu-score { font-family: var(--font-head); font-size: 14px; font-weight: 700;
+  min-width: 42px; text-align: right; flex-shrink: 0; }
 .stu-score.pass { color: #0A6A6A; }
 .stu-score.low  { color: var(--bordeaux); }
-.stu-skill { font-family: var(--font-head); font-size: 8px; font-weight: 700;
+.stu-skill { font-family: var(--font-head); font-size: 9px; font-weight: 700;
   letter-spacing: .03em; text-transform: uppercase;
   background: rgba(92,26,58,.1); color: var(--bordeaux);
-  padding: 2px 6px 2px 4px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
-.gc-none   { font-size: 11px; color: var(--text-hint); font-style: italic; }
+  padding: 3px 8px 3px 5px; border-radius: 5px; white-space: nowrap; flex-shrink: 0; }
+.gc-none   { font-size: 12px; color: var(--text-hint); font-style: italic; }
 
 /* ── LOADING ── */
 .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; gap: 14px; color: var(--text-hint); }
@@ -330,7 +337,15 @@ function render(students) {
   const groups   = computeGroups(students);
   const done     = students.filter(s=>s.total!==null);
   const passing  = done.filter(s=>s.total>=70);
-  const insights = generateInsights(students, lvlStats);
+  const insights = generateInsights(students, lvlStats); // kept for legacy; not rendered
+  const ranked = lvlStats.filter(l=>l.avg!==null).sort((a,b)=>b.avg-a.avg);
+  const bestLvl  = ranked[0];
+  const worstLvl = ranked.length>1 ? ranked[ranked.length-1] : null;
+  const allLis = avg(done.map(s=>s.listening).filter(v=>v!==null));
+  const allRW  = avg(done.map(s=>s.rw).filter(v=>v!==null));
+  const allSpk = avg(done.map(s=>s.speaking).filter(v=>v!==null));
+  const weakSchool = [['Listening',allLis],['R&W',allRW],['Speaking',allSpk]]
+    .filter(([,v])=>v!==null).sort((a,b)=>a[1]-b[1])[0];
   const now = new Date().toLocaleString('ru-RU',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
 
   // Group by level for rendering
@@ -369,11 +384,34 @@ function render(students) {
     </div>
   </div>
 
-  <!-- INSIGHTS -->
-  <div class="insights-box">
-    <div class="insights-title">На что обратить внимание</div>
-    <div class="insights-list">
-      ${insights.map(i=>`<div class="insight-item"><div class="insight-dot"></div><span>${i}</span></div>`).join('')}
+  <!-- КРАТКАЯ СВОДКА -->
+  <div class="svod-box">
+    <div class="svod-title">Краткая сводка по тестированию</div>
+    <div class="svod-tiles">
+      ${bestLvl ? `<div class="svod-tile">
+        <div class="svod-tile-lbl">Лучший результат</div>
+        <div class="svod-tile-main">${bestLvl.level}</div>
+        <div class="svod-tile-sub">средний ${bestLvl.avg}% · прошли ${bestLvl.passRate}%</div>
+      </div>` : ''}
+      ${worstLvl ? `<div class="svod-tile">
+        <div class="svod-tile-lbl">Сложнее всего дался тест</div>
+        <div class="svod-tile-main">${worstLvl.level}</div>
+        <div class="svod-tile-sub">средний ${worstLvl.avg}% · прошли ${worstLvl.passRate}%</div>
+      </div>` : ''}
+      ${weakSchool ? `<div class="svod-tile">
+        <div class="svod-tile-lbl">Слабый навык по школе</div>
+        <div class="svod-tile-main">${weakSchool[0]}</div>
+        <div class="svod-tile-sub">средний по всем уровням ${weakSchool[1]}%</div>
+      </div>` : ''}
+    </div>
+    <div class="svod-divider"></div>
+    <div style="font-family:var(--font-head);font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px">Что труднее всего даётся по уровням</div>
+    <div class="svod-skills">
+      ${lvlStats.filter(l=>l.weak&&l.weak[1]!==null).map(l=>`
+        <div class="svod-skill-tag">
+          <div class="svod-skill-lvl">${l.level}</div>
+          <div class="svod-skill-name">↓ ${l.weak[0]}</div>
+        </div>`).join('')}
     </div>
   </div>
 

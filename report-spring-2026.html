@@ -56,7 +56,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .insight-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 6px; }
 
 /* ── LEVEL CARDS ── */
-.level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+.level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
 .level-card {
   background: var(--white); border: 0.5px solid var(--border);
   border-radius: 20px; padding: 22px 22px 24px;
@@ -101,7 +101,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .group-cards { display: flex; flex-wrap: wrap; gap: 12px; }
 .group-card  {
   background: var(--white); border: 0.5px solid var(--border);
-  border-radius: 18px; padding: 18px 20px; min-width: 220px; flex: 1 1 220px; max-width: 340px;
+  border-radius: 18px; padding: 20px 22px; min-width: 270px; flex: 1 1 270px; max-width: 420px;
 }
 .gc-name  { font-family: var(--font-head); font-size: 13px; font-weight: 700; margin-bottom: 4px; }
 .gc-count { font-size: 11px; color: var(--text-muted); margin-bottom: 14px; }
@@ -253,9 +253,10 @@ function computeLevel(students) {
     .map(([level,ss])=>{
       const done = ss.filter(s=>s.total!==null);
       const pass = done.filter(s=>s.total>=70);
-      const lis  = avg(ss.map(s=>s.listening).filter(v=>v!==null));
-      const rw   = avg(ss.map(s=>s.rw).filter(v=>v!==null));
-      const spk  = avg(ss.map(s=>s.speaking).filter(v=>v!==null));
+      // навыки считаем только по завершившим тест — иначе Speaking занижен из-за Резерв
+      const lis  = avg(done.map(s=>s.listening).filter(v=>v!==null));
+      const rw   = avg(done.map(s=>s.rw).filter(v=>v!==null));
+      const spk  = avg(done.map(s=>s.speaking).filter(v=>v!==null));
       const skills = [['Listening',lis],['Reading & Writing',rw],['Speaking',spk]];
       const weak = skills.filter(([,v])=>v!==null).sort((a,b)=>a[1]-b[1])[0];
       return { level, count:ss.length, wrote:done.length,
@@ -294,18 +295,11 @@ function generateInsights(students, lvlStats) {
   const weakSkill = skills.filter(([,v])=>v!==null).sort((a,b)=>a[1]-b[1])[0];
   if (weakSkill) insights.push(`Самый слабый навык по всей школе — <b>${weakSkill[0]}</b>: средний ${weakSkill[1]}%`);
 
-  // Levels where a specific skill is weak
+  // Навыки по каждому уровню
   lvlStats.forEach(l=>{
-    if(l.weak && l.weak[1]!==null && l.weak[1]<55)
-      insights.push(`У <b>${l.level}</b> особенно проседает <b>${l.weak[0]}</b>: ${l.weak[1]}%`);
+    if(l.weak && l.weak[1]!==null)
+      insights.push(`<b>${l.level}</b> — проседает <b>${l.weak[0]}</b>: средний ${l.weak[1]}%`);
   });
-
-  // Students below 50%
-  const attention = done.filter(s=>s.total<50);
-  if (attention.length>0)
-    insights.push(`${attention.length} ${attention.length===1?'ребёнок набрал':'детей набрали'} менее 50% — стоит обсудить на собрании`);
-  else
-    insights.push(`Нет детей ниже 50% — сильный результат`);
 
   return insights;
 }
@@ -344,7 +338,7 @@ function render(students) {
       <div class="sum-card">
         <div class="sum-lbl">Написали тест</div>
         <div class="sum-val">${done.length}<span class="u"> / ${TOTAL_ENROLLED}</span></div>
-        <div class="sum-note">детей из зачисленных</div>
+        <div class="sum-note">детей</div>
       </div>
       <div class="sum-card">
         <div class="sum-lbl">Результат 70% и выше</div>
@@ -368,12 +362,15 @@ function render(students) {
     <div class="level-grid">
       ${lvlStats.map(l => {
         const cls = lvlCls(l.level);
-        const passCol = l.passRate>=70?'var(--teal)':l.passRate>=50?'#D4850A':'var(--bordeaux)';
         return `
         <div class="level-card">
           <div class="level-tag lc-${cls}">${l.level}</div>
-          <div class="level-big tc-${cls}">${l.passRate}%</div>
-          <div class="level-sub">успеваемость · ${l.passing} из ${l.wrote}</div>
+          <div class="level-big tc-${cls}">${l.wrote}</div>
+          <div class="level-sub">детей писали тест</div>
+          <div class="level-stat">
+            <span class="level-slbl">Прошли 70%+</span>
+            <span class="level-sval" style="color:${pctCol(l.avg)}">${l.passing} (${l.passRate}%)</span>
+          </div>
           <div class="level-stat">
             <span class="level-slbl">Средний % выполнения</span>
             <span class="level-sval" style="color:${pctCol(l.avg)}">${l.avg??'—'}%</span>
@@ -384,15 +381,44 @@ function render(students) {
             ${sbRow('Reading & Writing', l.rw)}
             ${sbRow('Speaking', l.spk)}
           </div>
-          ${l.weak && l.weak[1]!==null ? `<div class="weak-tag">слабее всего: ${l.weak[0]}</div>` : ''}
+          ${l.weak && l.weak[1]!==null ? `<div class="weak-tag">Труднее всего даётся: ${l.weak[0]}</div>` : ''}
         </div>`;
       }).join('')}
     </div>
   </div>
 
+  <!-- DIAGNOSTICS (collapsible) -->
+  <details style="margin-bottom:36px">
+    <summary style="cursor:pointer;font-family:var(--font-head);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-hint);padding:10px 0">▶ Диагностика данных (для проверки)</summary>
+    <div style="overflow-x:auto;margin-top:12px">
+      <table style="width:100%;border-collapse:collapse;font-size:11px">
+        <thead><tr style="background:var(--bg2)">
+          <th style="text-align:left;padding:6px 10px;border:0.5px solid var(--border)">Уровень</th>
+          <th style="text-align:left;padding:6px 10px;border:0.5px solid var(--border)">Группа</th>
+          <th style="text-align:left;padding:6px 10px;border:0.5px solid var(--border)">Имя</th>
+          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">Listening</th>
+          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">R&W</th>
+          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">Speaking</th>
+          <th style="text-align:center;padding:6px 10px;border:0.5px solid var(--border)">Total</th>
+        </tr></thead>
+        <tbody>
+          ${students.map(s=>`<tr>
+            <td style="padding:4px 10px;border:0.5px solid var(--border)">${s.level}</td>
+            <td style="padding:4px 10px;border:0.5px solid var(--border)">${s.group}</td>
+            <td style="padding:4px 10px;border:0.5px solid var(--border)">${s.name}</td>
+            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border)">${s.listening??'—'}</td>
+            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border)">${s.rw??'—'}</td>
+            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border)">${s.speaking??'—'}</td>
+            <td style="text-align:center;padding:4px 10px;border:0.5px solid var(--border);font-weight:700">${s.total??'—'}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </details>
+
   <!-- BY GROUP -->
   <div class="section">
-    <div class="section-title">По группам</div>
+    <div class="section-title">Анализ по группам</div>
     ${ORDER.filter(lv => byLevelGroups[lv]).map(lv => {
       const cls = lvlCls(lv);
       return `
@@ -405,8 +431,7 @@ function render(students) {
           ${byLevelGroups[lv].map(g => {
             const done2  = g.ss.filter(s=>s.total!==null);
             const pass   = done2.filter(s=>s.total>=70).sort((a,b)=>b.total-a.total);
-            const mid    = done2.filter(s=>s.total>=50&&s.total<70).sort((a,b)=>b.total-a.total);
-            const low    = done2.filter(s=>s.total<50).sort((a,b)=>a.total-b.total);
+            const low    = done2.filter(s=>s.total<40).sort((a,b)=>a.total-b.total);
 
             function weakSkill(s) {
               const sk=[['Lis',s.listening],['R&W',s.rw],['Spk',s.speaking]];
@@ -417,27 +442,19 @@ function render(students) {
             return `
             <div class="group-card">
               <div class="gc-name">${g.group}</div>
-              <div class="gc-count">${done2.length} написали тест</div>
+              <div class="gc-count">${done2.length} человек писали тест</div>
 
               ${pass.length>0?`
               <div class="gc-zone">
-                <div class="gc-zone-lbl z-pass">70% и выше · ${pass.length}</div>
+                <div class="gc-zone-lbl z-pass">70% и выше</div>
                 <div class="chips">
                   ${pass.map(s=>`<div class="chip chip-pass"><span class="chip-name">${s.name.split(' ').slice(0,2).join(' ')}</span><span class="chip-score">${s.total}%</span></div>`).join('')}
                 </div>
               </div>`:''}
 
-              ${mid.length>0?`
-              <div class="gc-zone">
-                <div class="gc-zone-lbl z-mid">50–69% · ${mid.length}</div>
-                <div class="chips">
-                  ${mid.map(s=>`<div class="chip chip-mid"><span class="chip-name">${s.name.split(' ').slice(0,2).join(' ')}</span><span class="chip-score">${s.total}%</span></div>`).join('')}
-                </div>
-              </div>`:''}
-
               ${low.length>0?`
               <div class="gc-zone">
-                <div class="gc-zone-lbl z-low">менее 50% · ${low.length}</div>
+                <div class="gc-zone-lbl z-low">менее 40%</div>
                 <div class="chips">
                   ${low.map(s=>{const w=weakSkill(s); return `<div class="chip chip-low"><span class="chip-name">${s.name.split(' ').slice(0,2).join(' ')}</span><span class="chip-score">${s.total??'—'}%</span>${w?`<span class="chip-skill">${w}</span>`:''}</div>`;}).join('')}
                 </div>
@@ -455,7 +472,39 @@ function render(students) {
 (async () => {
   try {
     const [r1,r2] = await Promise.all([fetchSheet('Data'),fetchSheet('Data_high')]);
-    render([...parseRows(r1,false),...parseRows(r2,true)]);
+
+    // ── ДИАГНОСТИКА: показываем первые 3 строки каждого листа ──
+    console.group('📊 AB Road · Диагностика данных');
+    function logRow(row, label) {
+      if (!row || !row.c) return;
+      const vals = row.c.map((cell,i)=>`[${i}] ${cell ? (cell.f||cell.v) : 'null'}`);
+      console.log(label, vals.join(' | '));
+    }
+    console.group('Лист Data (первые 3 строки)');
+    r1.slice(0,3).forEach((r,i)=>logRow(r, `Строка ${i+1}:`));
+    console.groupEnd();
+    console.group('Лист Data_high (первые 3 строки)');
+    r2.slice(0,3).forEach((r,i)=>logRow(r, `Строка ${i+1}:`));
+    console.groupEnd();
+
+    const allStudents = [...parseRows(r1,false),...parseRows(r2,true)];
+
+    // Логируем посчитанные значения
+    const lvlStats = computeLevel(allStudents);
+    console.group('Посчитанные средние по уровням:');
+    lvlStats.forEach(l => console.log(
+      `${l.level}: wrote=${l.wrote} avg=${l.avg}% | Lis=${l.lis}% RW=${l.rw}% Spk=${l.spk}% | pass=${l.passing}/${l.wrote}`
+    ));
+    console.groupEnd();
+
+    const done = allStudents.filter(s=>s.total!==null);
+    const allLis = avg(done.map(s=>s.listening).filter(v=>v!==null));
+    const allRW  = avg(done.map(s=>s.rw).filter(v=>v!==null));
+    const allSpk = avg(done.map(s=>s.speaking).filter(v=>v!==null));
+    console.log(`Школа в целом: Lis=${allLis}% RW=${allRW}% Spk=${allSpk}%`);
+    console.groupEnd();
+
+    render(allStudents);
   } catch(e) {
     document.getElementById('app').innerHTML=`
       <div class="loading" style="color:var(--bordeaux)">
